@@ -19,16 +19,22 @@
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0" >
+                <Border BorderBrush="Black" BorderThickness="0 0 1 0">
                 <StackPanel >
+                    
                     <!--<TextBlock Text="Menu Nav Bar" />-->
                     <ContentControl x:Name="ActiveItem" Margin="20"/>
+                   
                 </StackPanel>
+                </Border>
             </Grid>
 
             <Grid Grid.Column="1">
-                <StackPanel>
+                <StackPanel >
+                    
                     <TextBlock Text="Content" />
                     <ContentControl x:Name="MainContent" Margin="20"/>
+                    
                 </StackPanel>
             </Grid>
         </Grid>

@@ -7,7 +7,33 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Title="ACT Report Tool" Height="800" Width="auto" FontSize="14" SizeToContent="WidthAndHeight">
-    <Grid>
-            
-    </Grid>
+    <DockPanel>
+        <Border Background="LightGray" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Bottom" Height="auto" VerticalAlignment="Bottom">
+            <TextBlock Text="Licensed to CRIF Jakarta " HorizontalAlignment="Right"  Margin="0 0 5 0" />
+        </Border>
+
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" >
+                <StackPanel >
+                    <!--<TextBlock Text="Menu Nav Bar" />-->
+                    <ContentControl x:Name="ActiveItem" Margin="20"/>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Column="1">
+                <StackPanel>
+                    <TextBlock Text="Content" />
+                    <ContentControl x:Name="MainContent" Margin="20"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+
+       
+    </DockPanel>
 </Window>

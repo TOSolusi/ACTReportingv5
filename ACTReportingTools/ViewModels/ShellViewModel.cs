@@ -9,6 +9,7 @@ namespace ACTReportingTools.ViewModels
 {
     public class ShellViewModel : Conductor<Object>
     {
+
         protected async override void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
@@ -18,6 +19,8 @@ namespace ACTReportingTools.ViewModels
            
 
         }
+
+        private IWindowManager _windowManager;
 
         private IScreen _mainContent;
         public IScreen MainContent
@@ -31,6 +34,10 @@ namespace ACTReportingTools.ViewModels
             }
         }
 
+        public ShellViewModel(IWindowManager windowManager)
+        {
+            _windowManager = windowManager;
+        }
         public async Task LoadMenu()
         {
             var menuModel = IoC.Get<MenuViewModel>();

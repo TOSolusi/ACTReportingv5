@@ -10,11 +10,16 @@ namespace ACTReportingTools.ViewModels
     public class ReportDateViewModel : Screen
     {
 
-        public ReportDateViewModel()
+        private IWindowManager _windowManager;
+        public ReportDateViewModel(IWindowManager windowManager)
         {
-                
+                _windowManager = windowManager;
         }
 
+        public async Task BtnGenerateReport()
+        {
 
+            await _windowManager.ShowWindowAsync(new ReportPreviewViewModel());
+         }
     }
 }

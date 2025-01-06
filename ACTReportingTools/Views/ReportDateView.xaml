@@ -22,7 +22,7 @@
             </StackPanel>
             <StackPanel Grid.Row="1" Background="GhostWhite" >
 
-                <TextBlock Text="Preset Period" FontSize="14" Margin="10 10 0 0" />
+                <!--<TextBlock Text="Preset Period" FontSize="14" Margin="10 10 0 0" />-->
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto" />
@@ -34,18 +34,18 @@
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
-                    <RadioButton GroupName="PresetPeriodRadio" Grid.Row="0" Grid.Column="0" FontSize="12" Margin="5" VerticalContentAlignment="Center">Today</RadioButton>
-                    <RadioButton GroupName="PresetPeriodRadio" Grid.Row="0" Grid.Column="1" FontSize="12" Margin="5" VerticalContentAlignment="Center">Yesterday</RadioButton>
-                    <RadioButton GroupName="PresetPeriodRadio" Grid.Row="1" Grid.Column="0" FontSize="12" Margin="5" VerticalContentAlignment="Center">This Week</RadioButton>
-                    <RadioButton GroupName="PresetPeriodRadio" Grid.Row="1" Grid.Column="1" FontSize="12" Margin="5" VerticalContentAlignment="Center">Last Week</RadioButton>
-                    <RadioButton GroupName="PresetPeriodRadio" Grid.Row="2" Grid.Column="0" FontSize="12" Margin="5" VerticalContentAlignment="Center">This Month</RadioButton>
-                    <RadioButton GroupName="PresetPeriodRadio" Grid.Row="2" Grid.Column="1" FontSize="12" Margin="5" VerticalContentAlignment="Center">Last Month</RadioButton>
+                    <RadioButton GroupName="PresetPeriodRadio" Grid.Row="0" Grid.Column="0" FontSize="14" Margin="5" VerticalContentAlignment="Center">Today</RadioButton>
+                    <RadioButton GroupName="PresetPeriodRadio" Grid.Row="0" Grid.Column="1" FontSize="14" Margin="5" VerticalContentAlignment="Center">Yesterday</RadioButton>
+                    <RadioButton GroupName="PresetPeriodRadio" Grid.Row="1" Grid.Column="0" FontSize="14" Margin="5" VerticalContentAlignment="Center">This Week</RadioButton>
+                    <RadioButton GroupName="PresetPeriodRadio" Grid.Row="1" Grid.Column="1" FontSize="14" Margin="5" VerticalContentAlignment="Center">Last Week</RadioButton>
+                    <RadioButton GroupName="PresetPeriodRadio" Grid.Row="2" Grid.Column="0" FontSize="14" Margin="5" VerticalContentAlignment="Center">This Month</RadioButton>
+                    <RadioButton GroupName="PresetPeriodRadio" Grid.Row="2" Grid.Column="1" FontSize="14" Margin="5" VerticalContentAlignment="Center">Last Month</RadioButton>
                 </Grid>
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Row="2">
-            <Button Content="Generate Report" Margin="20 0 20 0" />
-        </StackPanel>
+            <Button Name="BtnGenerateReport" Content="Generate Report" Margin="20 0 20 0" />
+        </StackPanel> 
         
     </Grid>
 </UserControl>

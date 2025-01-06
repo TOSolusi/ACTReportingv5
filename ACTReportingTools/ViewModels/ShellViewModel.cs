@@ -39,7 +39,7 @@ namespace ACTReportingTools.ViewModels
 
         public async Task LoadContent()
         {
-            var contentModel = IoC.Get<ContentViewModel>();
+            var contentModel = IoC.Get<ReportDateViewModel>();
             //await ActivateItemAsync(contentModel, new CancellationToken());
             MainContent = contentModel;
         }

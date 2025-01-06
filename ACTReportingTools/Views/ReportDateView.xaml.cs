@@ -16,15 +16,13 @@ using System.Windows.Shapes;
 namespace ACTReportingTools.Views
 {
     /// <summary>
-    /// Interaction logic for MenuView.xaml
+    /// Interaction logic for ReportDateView.xaml
     /// </summary>
-    public partial class MenuView : UserControl
+    public partial class ReportDateView : UserControl
     {
-        public MenuView()
+        public ReportDateView()
         {
             InitializeComponent();
         }
-
-       
     }
 }

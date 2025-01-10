@@ -1,0 +1,80 @@
+﻿<UserControl x:Class="ACTReportingTools.Views.ReportSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             xmlns:local="clr-namespace:ACTReportingTools.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <!--<Border BorderThickness="2" Margin="20" Grid.Row="0" BorderBrush="Gray" >-->
+        <StackPanel Grid.Row="0" Margin="10">
+            <StackPanel Orientation="Horizontal" Margin="5" VerticalAlignment="Center">
+                <TextBlock Margin="5">Time In (Mon - Fri)</TextBlock>
+                <TextBlock Margin="5">From</TextBlock>
+                <syncfusion:SfTimePicker x:Name="sfTimePicker" 
+                             Margin="5" FormatString="HH:mm"    Width="100"/>
+                <TextBlock Margin="5">To</TextBlock>
+                <syncfusion:SfTimePicker x:Name="sfTimePicker1" 
+             Margin="5" FormatString="HH:mm"    Width="100"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="5" VerticalAlignment="Center">
+                <TextBlock Margin="5">Time Out (Mon - Fri)</TextBlock>
+                <TextBlock Margin="5">From</TextBlock>
+                <syncfusion:SfTimePicker x:Name="sfTimePicker2" 
+                             Margin="5" FormatString="HH:mm"    Width="100"/>
+                <TextBlock Margin="5">To</TextBlock>
+                <syncfusion:SfTimePicker x:Name="sfTimePicker3" 
+             Margin="5" FormatString="HH:mm"    Width="100"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Margin="10 5 10 5">Check On</TextBlock>
+                <CheckBox Margin="10 5 10 5">Saturday</CheckBox>
+                <CheckBox Margin="10 5 10 5">Sunday</CheckBox>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Margin="10">
+            <StackPanel Orientation="Horizontal" Margin="5" VerticalAlignment="Center">
+                <TextBlock Margin="5">Break Time (Mon - Thu)</TextBlock>
+                <TextBlock Margin="5">From</TextBlock>
+                <syncfusion:SfTimePicker x:Name="sfTimePicker4" 
+                 Margin="5" FormatString="HH:mm"    Width="100"/>
+                <TextBlock Margin="5">To</TextBlock>
+                <syncfusion:SfTimePicker x:Name="sfTimePicker5" 
+                    Margin="5" FormatString="HH:mm"    Width="100"/>
+                <TextBlock Margin="5">Duration (min.)</TextBlock>
+                <TextBox Margin="5" Width="50"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="5" VerticalAlignment="Center">
+                <TextBlock Margin="5">Break Time (Fri)</TextBlock>
+                <TextBlock Margin="5">From</TextBlock>
+                <syncfusion:SfTimePicker x:Name="sfTimePicker6" Margin="5" FormatString="HH:mm"    Width="100"/>
+                <TextBlock Margin="5">To</TextBlock>
+                <syncfusion:SfTimePicker x:Name="sfTimePicker7" Margin="5" FormatString="HH:mm"    Width="100"/>
+                <TextBlock Margin="5">Duration (min.)</TextBlock>
+                <TextBox Margin="5" Width="50"></TextBox>
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" VerticalAlignment="Center" Margin="10">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="5">Rest Room Grace Period</TextBlock>
+                <TextBox Margin="5" Width="50"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="5">Min. Dwell Time (min.)</TextBlock>
+                <TextBox Margin="5" Width="50"></TextBox>
+            </StackPanel>
+        </StackPanel>
+        <Button Grid.Row="3" Width="200" Margin="10">Save Settings</Button>
+
+    </Grid>
+</UserControl>

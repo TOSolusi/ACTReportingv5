@@ -6,7 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              xmlns:cal="http://www.caliburnproject.org"
-             xmlns:local="clr-namespace:ACTReportingTools.Views"        
+             xmlns:local="clr-namespace:ACTReportingTools.Views" xmlns:viewmodels="clr-namespace:ACTReportingTools.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:MenuViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -21,24 +21,25 @@
         </Grid.RowDefinitions>
 
         <!--<TextBlock Name="Title" FontSize="30" Grid.Row="0"/>-->
-        <syncfusion:SfNavigationDrawer  x:Name="navigationDrawer" DisplayMode="Expanded" Grid.Row="0" MinHeight="400">
-            <syncfusion:NavigationItem Header="Report" FontSize="18" IsSelected="True" Name="Bttn1">
+        <syncfusion:SfNavigationDrawer  x:Name="navigationDrawer" DisplayMode="Expanded" Grid.Row="0" MinHeight="400" >
+            <syncfusion:NavigationItem Header="Report" FontSize="18" IsSelected="True" Command="{Binding CommandReportDate}" >
                 <syncfusion:NavigationItem.Icon>
                     <Image Source="..\Icons\Report-Editor.png" Stretch="Uniform"/>
                 </syncfusion:NavigationItem.Icon>
             </syncfusion:NavigationItem>
-            <syncfusion:NavigationItem Header="Report Settings" FontSize="18" Name="Button2" cal:Message.Attach="[Event Click] = [Action Button2]" >
+            <syncfusion:NavigationItem Header="Report Settings" FontSize="18" Command="{Binding CommandReportSettings}" >
                 <syncfusion:NavigationItem.Icon>
                     <Image Source="..\Icons\Document Setting-WF.png" Stretch="Uniform"/>
                 </syncfusion:NavigationItem.Icon>
             </syncfusion:NavigationItem>
             <syncfusion:SfNavigationDrawer.FooterItems>
-                <syncfusion:NavigationItem Header="Advanced Settings" FontSize="18" Name="Butt3" >
+                <syncfusion:NavigationItem Header="Advanced Settings" FontSize="18"  Command="{Binding CommandSettings}">
+                   
                     <syncfusion:NavigationItem.Icon>
                         <Image Source="..\Icons\Settings.png" Stretch="Uniform"/>
                     </syncfusion:NavigationItem.Icon>
                 </syncfusion:NavigationItem>
-                <syncfusion:NavigationItem Header="Exit" FontSize="18" Name="Exit">
+                <syncfusion:NavigationItem Header="Exit" FontSize="18" Name="Exit" Command="{Binding CommandExit}">
                     <syncfusion:NavigationItem.Icon>
                         <Image Source="..\Icons\Exit - 02.png" Stretch="Uniform"/>
                     </syncfusion:NavigationItem.Icon>

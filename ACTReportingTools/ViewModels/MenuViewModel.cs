@@ -1,7 +1,11 @@
-﻿using Caliburn.Micro;
+﻿using ACTReportingTools.Helpers;
+using Caliburn.Micro;
 using Syncfusion.UI.Xaml.NavigationDrawer;
+using Syncfusion.Windows.Shared;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Text;
@@ -26,6 +30,8 @@ namespace ACTReportingTools.ViewModels
             }
         }
 
+       
+        
         private string title;
 
         public string Title
@@ -38,67 +44,45 @@ namespace ACTReportingTools.ViewModels
             }
         }
 
-        private object selectedItem;
-        public object SelectedItem
-        {
-            get { return selectedItem; }
-            set
-            {
-                selectedItem = value;
-                NotifyOfPropertyChange(() => SelectedItem);
-            }
-        }
+        public ICommand CommandReportDate { get; }
+        public ICommand CommandReportSettings { get; }
+        public ICommand CommandSettings { get; }
+        public ICommand CommandExit { get; }
 
-        public ICommand NavigateCommand { get; }
-
+        
         public MenuViewModel()
         {
             ContentModel = IoC.Get<ShellViewModel>();
             Title = "Menu Options";
 
-            NavigateCommand = new RelayCommand(Button2);
+            CommandReportDate = new RelayCommand(ButtonReportDate);
+            CommandReportSettings = new RelayCommand(ButtonReportSettings);
+            CommandSettings = new RelayCommand(ButtonSettings);
+            CommandExit = new RelayCommand(ButtonExit);
+
+
         }
 
-
-
-
-        public async Task Button1()
+        public void ButtonReportDate()
         {
-            // Add login logic here
-            // For simplicity, let's just display a message for now
-
             ContentModel.MainContent = IoC.Get<ReportDateViewModel>();
-
         }
 
-        public void Button2()
+        public void ButtonReportSettings()
         {
-            // Add login logic here
-            // For simplicity, let's just display a message for now
-            ContentModel.MainContent = IoC.Get<Content1ViewModel>();
+            ContentModel.MainContent = IoC.Get<ReportSettingsViewModel>();
         }
 
-        public async Task Button3()
+        public void ButtonSettings()
         {
-            // Add login logic here
-            // For simplicity, let's just display a message for now
-            ContentModel.MainContent = IoC.Get<Content2ViewModel>();
+            ContentModel.MainContent = IoC.Get<ReportDateViewModel>();
         }
 
-
-        public class RelayCommand : ICommand
+        public void ButtonExit()
         {
-            private readonly Action _execute;
-            private readonly Func<bool> _canExecute;
-            public RelayCommand(Action execute, Func<bool> canExecute = null)
-            {
-                _execute = execute;
-                _canExecute = canExecute;
-            }
-            public bool CanExecute(object parameter) => _canExecute == null || _canExecute();
-            public void Execute(object parameter) => _execute();
-            public event EventHandler CanExecuteChanged;
-
+            Application.Current.Shutdown();
         }
+        
+       
     }
 }

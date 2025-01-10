@@ -15,13 +15,16 @@
         <syncfusion:SfDataGrid AutoGenerateColumns="False" AllowSorting="True" Grid.Row="0"
                                AllowGrouping="True" AllowFiltering="True" Margin="20">
             <syncfusion:SfDataGrid.Columns>
+                <syncfusion:GridTextColumn MappingName="Department" Width="200"/>
+                <syncfusion:GridTextColumn MappingName="Name" Width="200"/>
+                <syncfusion:GridTextColumn MappingName="Week #" Width="60"/>
                 <syncfusion:GridTextColumn MappingName="Date In" Width="100"/>
                 <syncfusion:GridTextColumn MappingName="Time In" Width="100" />
                 <syncfusion:GridTextColumn MappingName="Date Out" Width="100"/>
                 <syncfusion:GridTextColumn MappingName="Time Out" Width="100"/>
                 <syncfusion:GridTextColumn MappingName="Hours In" Width="100"/>
                 <syncfusion:GridTextColumn MappingName="Unaccounted" Width="100"/>
-                <syncfusion:GridTextColumn MappingName="Remark" Width="300"/>
+                <syncfusion:GridTextColumn MappingName="Remark" Width="500"/>
                 </syncfusion:SfDataGrid.Columns>
            
         </syncfusion:SfDataGrid>

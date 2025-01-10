@@ -9,5 +9,15 @@ namespace ACTReportingTools.ViewModels
 {
     public class ReportSettingsViewModel : Screen
     {
+        public MenuViewModel menuViewModel { get; set; }         
+        public ReportSettingsViewModel()
+        {
+                menuViewModel = IoC.Get<MenuViewModel>();
+        }
+
+        public void ButtonCancel()
+        {
+            menuViewModel.ButtonReportDate();
+        }
     }
 }

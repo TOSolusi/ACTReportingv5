@@ -1,0 +1,16 @@
+{
+"TimeInFrom" : "08:00",
+"TimeInTo" : "10:00",
+"TimeOutFrom" : "17:00",
+"TimeOutTo" : "19:00",
+"CheckSaturday" : "True",
+"CheckSunday" : "True",
+"BreakTimeFrom" : "1200",
+"BreakTimeTo" : "1400",
+"BreakTimeDuration" : "60",
+"BreakTimeFriFrom" : "1130",
+"BreakTimeFriTo" : "1400",
+"BreakTimeFriDuration" : "90",
+"GracePeriod" : "15",
+"DwellTime" : "30"
+}

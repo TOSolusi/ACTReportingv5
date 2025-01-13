@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              xmlns:local="clr-namespace:ACTReportingTools.Views"
+             xmlns:viewmodels="clr-namespace:ACTReportingTools.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:ReportSettingsViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -40,13 +41,26 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Column="0" Grid.Row="0" Margin="20 20 5 5">Time In (Mon - Fri)</TextBlock>
-            <TextBlock Grid.Column="1" Grid.Row="0" Margin="5 20 5 5">From</TextBlock>
-            <syncfusion:SfTimePicker x:Name="sfTimePicker" Grid.Column="2" Grid.Row="0" Margin="5 20 5 5 " FormatString="HH:mm"    Width="100"/>
-            <TextBlock  Grid.Column="3" Grid.Row="0"   Margin="5 20 5 5">To</TextBlock>
-            <syncfusion:SfTimePicker x:Name="sfTimePicker1" Grid.Column="4" Grid.Row="0" Margin="5 20 20 5" FormatString="HH:mm"    Width="100"/>
+            <TextBlock Grid.Column="0" Grid.Row="0" Margin="20 20 5 5" VerticalAlignment="Center">Time In (Mon - Fri)</TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="0" Margin="5 20 5 5" VerticalAlignment="Center">From</TextBlock>
 
+            <!--<syncfusion:SfTimePicker Name="TimeInFrom"  Grid.Column="2" Grid.Row="0" Margin="5 20 5 5 "  FormatString="HH:mm"
+                                   Value="{Binding TimeInFrom, Mode=TwoWay}" AllowInlineEditing="True"   Width="100" >--><!--
 
+            </syncfusion:SfTimePicker>-->
+            <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="0" VerticalAlignment="Center">
+            <syncfusion:ComboBoxAdv ItemsSource="{Binding HourNumbers}"  Margin="2 20 1 5"  Width="40" SelectedValue="{Binding TimeInHourFromString}"/>
+                <TextBlock Margin="1 20 1 5">:</TextBlock>
+                <syncfusion:ComboBoxAdv ItemsSource="{Binding MinuteNumbers}" Margin="1 20 5 5"  Width="40" SelectedValue="{Binding TimeInMinuteFromString}"/>
+            </StackPanel>
+            <TextBlock  Grid.Column="3" Grid.Row="0"   Margin="5 20 5 5" VerticalAlignment="Center">To</TextBlock>
+            <!--<syncfusion:SfTimePicker Name="TimeInTo"  Value="{Binding TimeInTo, Mode=TwoWay}" Grid.Column="4" Grid.Row="0" Margin="5 20 20 5" FormatString="HH:mm"    Width="100"/>-->
+            <StackPanel Orientation="Horizontal" Grid.Column="4" Grid.Row="0" VerticalAlignment="Center">
+                <syncfusion:ComboBoxAdv ItemsSource="{Binding HourNumbers}"  Margin="2 20 1 5"  Width="40" SelectedValue="{Binding TimeInHourToString}"/>
+                <TextBlock Margin="1 20 1 5">:</TextBlock>
+                <syncfusion:ComboBoxAdv ItemsSource="{Binding MinuteNumbers}" Margin="1 20 5 5"  Width="40" SelectedValue="{Binding TimeInMinuteToString}"/>
+            </StackPanel>
+           
             <TextBlock  Grid.Column="0" Grid.Row="1" Margin="20 5 5 5">Time Out (Mon - Fri)</TextBlock>
             <TextBlock Grid.Column="1" Grid.Row="1" Margin="5 5 5 5">From</TextBlock>
             <syncfusion:SfTimePicker x:Name="sfTimePicker2" Grid.Column="2" Grid.Row="1" Margin="5 5 5 5" FormatString="HH:mm"    Width="100"/>

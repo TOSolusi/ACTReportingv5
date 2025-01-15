@@ -28,7 +28,7 @@ namespace ACTReportingTools.Helpers
 
             JObject o2 = new JObject();
 
-            using (StreamReader file = File.OpenText($"Settings/{FileName}"))
+            using (StreamReader file = File.OpenText($"{FileName}"))
             using (JsonTextReader reader = new JsonTextReader(file))
             {
                 o2 = (JObject)JToken.ReadFrom(reader);
@@ -54,7 +54,7 @@ namespace ACTReportingTools.Helpers
 
                 var jsonString = JsonConvert.SerializeObject(config, formatting: Newtonsoft.Json.Formatting.Indented);
                 
-                File.WriteAllText("Settings/{FileName}", jsonString);
+                File.WriteAllText(FileName, jsonString);
 
             }
             catch (Exception ex)

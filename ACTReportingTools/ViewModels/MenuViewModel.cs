@@ -49,11 +49,14 @@ namespace ACTReportingTools.ViewModels
         public ICommand CommandSettings { get; }
         public ICommand CommandExit { get; }
 
-        
+        public string  FileNameReportSettings { get; set; } 
+
         public MenuViewModel()
         {
             ContentModel = IoC.Get<ShellViewModel>();
             Title = "Menu Options";
+
+            //FileNameReportSettings = FileReportSettings;
 
             CommandReportDate = new RelayCommand(ButtonReportDate);
             CommandReportSettings = new RelayCommand(ButtonReportSettings);

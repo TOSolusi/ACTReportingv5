@@ -1,8 +1,8 @@
 {
-"TimeInFrom" : "08:00",
-"TimeInTo" : "10:00",
-"TimeOutFrom" : "17:00",
-"TimeOutTo" : "19:00",
+"TimeInFrom" : "0845",
+"TimeInTo" : "1000",
+"TimeOutFrom" : "1700",
+"TimeOutTo" : "1900",
 "CheckSaturday" : "True",
 "CheckSunday" : "True",
 "BreakTimeFrom" : "1200",

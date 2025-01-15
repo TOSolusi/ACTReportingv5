@@ -9,16 +9,23 @@ namespace ACTReportingTools.ViewModels
 {
     public class ShellViewModel : Conductor<Object>
     {
+        public string fileReportSettings { get; set; }
+
+       
 
         protected async override void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
             //await UserLogin();
+            //fileReportSettings = "Settings/ReportSettings.json";
+
             await LoadMenu();
             await LoadContent();
            
 
         }
+
+
 
         private IWindowManager _windowManager;
 

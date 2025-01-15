@@ -31,6 +31,7 @@ namespace ACTReportingTools
                 .Singleton<IEventAggregator, EventAggregator>()
                 .Singleton<ShellViewModel, ShellViewModel>()
                 .Singleton<MenuViewModel, MenuViewModel>()
+                .Singleton<FileLocationViewModel, FileLocationViewModel>()
                 ;
 
 

@@ -43,33 +43,36 @@
 
             <TextBlock Grid.Column="0" Grid.Row="0" Margin="20 20 5 5" VerticalAlignment="Center">Time In (Mon - Fri)</TextBlock>
             <TextBlock Grid.Column="1" Grid.Row="0" Margin="5 20 5 5" VerticalAlignment="Center">From</TextBlock>
-
-            <!--<syncfusion:SfTimePicker Name="TimeInFrom"  Grid.Column="2" Grid.Row="0" Margin="5 20 5 5 "  FormatString="HH:mm"
-                                   Value="{Binding TimeInFrom, Mode=TwoWay}" AllowInlineEditing="True"   Width="100" >--><!--
-
-            </syncfusion:SfTimePicker>-->
             <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="0" VerticalAlignment="Center">
-            <syncfusion:ComboBoxAdv ItemsSource="{Binding HourNumbers}"  Margin="2 20 1 5"  Width="40" SelectedValue="{Binding TimeInHourFromString}"/>
-                <TextBlock Margin="1 20 1 5">:</TextBlock>
-                <syncfusion:ComboBoxAdv ItemsSource="{Binding MinuteNumbers}" Margin="1 20 5 5"  Width="40" SelectedValue="{Binding TimeInMinuteFromString}"/>
+            <syncfusion:ComboBoxAdv ItemsSource="{Binding HourNumbers}"  Margin="5 20 2 5"  Width="40" SelectedValue="{Binding TimeInFromHour, Mode=TwoWay}"/>
+                <TextBlock Margin="2 20 2 5">:</TextBlock>
+                <syncfusion:ComboBoxAdv ItemsSource="{Binding MinuteNumbers}" Margin="2 20 5 5"  Width="40" SelectedValue="{Binding TimeInFromMinutes, Mode=TwoWay}"/>
             </StackPanel>
             <TextBlock  Grid.Column="3" Grid.Row="0"   Margin="5 20 5 5" VerticalAlignment="Center">To</TextBlock>
             <!--<syncfusion:SfTimePicker Name="TimeInTo"  Value="{Binding TimeInTo, Mode=TwoWay}" Grid.Column="4" Grid.Row="0" Margin="5 20 20 5" FormatString="HH:mm"    Width="100"/>-->
             <StackPanel Orientation="Horizontal" Grid.Column="4" Grid.Row="0" VerticalAlignment="Center">
-                <syncfusion:ComboBoxAdv ItemsSource="{Binding HourNumbers}"  Margin="2 20 1 5"  Width="40" SelectedValue="{Binding TimeInHourToString}"/>
-                <TextBlock Margin="1 20 1 5">:</TextBlock>
-                <syncfusion:ComboBoxAdv ItemsSource="{Binding MinuteNumbers}" Margin="1 20 5 5"  Width="40" SelectedValue="{Binding TimeInMinuteToString}"/>
+                <syncfusion:ComboBoxAdv ItemsSource="{Binding HourNumbers}"  Margin="5 20 2 5"  Width="40" SelectedValue="{Binding TimeInToHour, Mode=TwoWay}"/>
+                <TextBlock Margin="2 20 2 5">:</TextBlock>
+                <syncfusion:ComboBoxAdv ItemsSource="{Binding MinuteNumbers}" Margin="2 20 5 5"  Width="40" SelectedValue="{Binding TimeInToMinutes, Mode=TwoWay}"/>
             </StackPanel>
            
             <TextBlock  Grid.Column="0" Grid.Row="1" Margin="20 5 5 5">Time Out (Mon - Fri)</TextBlock>
             <TextBlock Grid.Column="1" Grid.Row="1" Margin="5 5 5 5">From</TextBlock>
-            <syncfusion:SfTimePicker x:Name="sfTimePicker2" Grid.Column="2" Grid.Row="1" Margin="5 5 5 5" FormatString="HH:mm"    Width="100"/>
+            <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center">
+                <syncfusion:ComboBoxAdv ItemsSource="{Binding HourNumbers}"  Margin="5 5 2 5"  Width="40" SelectedValue="{Binding TimeOutFromHour, Mode=TwoWay}"/>
+                <TextBlock Margin="2 5 2 5">:</TextBlock>
+                <syncfusion:ComboBoxAdv ItemsSource="{Binding MinuteNumbers}" Margin="2 5 5 5"  Width="40" SelectedValue="{Binding TimeOutFromMinutes, Mode=TwoWay}"/>
+            </StackPanel>
             <TextBlock Grid.Column="3" Grid.Row="1" Margin="5 5 5 5">To</TextBlock>
-            <syncfusion:SfTimePicker x:Name="sfTimePicker3" Grid.Column="4" Grid.Row="1" Margin="5 5 20 5" FormatString="HH:mm"    Width="100"/>
+            <StackPanel Orientation="Horizontal" Grid.Column="4" Grid.Row="1" VerticalAlignment="Center">
+                <syncfusion:ComboBoxAdv ItemsSource="{Binding HourNumbers}"  Margin="5 5 2 5"  Width="40" SelectedValue="{Binding TimeOutToHour, Mode=TwoWay}"/>
+                <TextBlock Margin="2 5 2 5">:</TextBlock>
+                <syncfusion:ComboBoxAdv ItemsSource="{Binding MinuteNumbers}" Margin="2 5 5 5"  Width="40" SelectedValue="{Binding TimeOutToMinutes, Mode=TwoWay}"/>
+            </StackPanel>
 
             <TextBlock Grid.Column="0" Grid.Row="2" Margin="20 5 5 5">Check On</TextBlock>
-            <CheckBox Grid.Column="2" Grid.Row="2" Margin="5 5 5 5">Saturday</CheckBox>
-            <CheckBox Grid.Column="4" Grid.Row="2" Margin="5 5 5 20">Sunday</CheckBox>
+            <CheckBox Grid.Column="2" Grid.Row="2" Margin="5 5 5 5" IsChecked="{Binding CheckSaturday, Mode=TwoWay}">Saturday</CheckBox>
+            <CheckBox Grid.Column="4" Grid.Row="2" Margin="5 5 5 20" IsChecked="{Binding CheckSunday, Mode=TwoWay}">Sunday</CheckBox>
 
             <TextBlock  Grid.Column="0" Grid.Row="3" Margin="20 20 5 5">Break Time (Mon - Thu)</TextBlock>
             <TextBlock Grid.Column="1" Grid.Row="3" Margin="5 20 5 5">From</TextBlock>
@@ -95,7 +98,8 @@
         </Grid>
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Width="200" Margin="10" Name="ButtonCancel">Cancel</Button>
-        <Button Width="200" Margin="10">Save Settings</Button>
+        <Button Width="200" Margin="10" Name="ButtonSaveSettings">Save Settings</Button>
         </StackPanel>
+        <TextBlock Text="{Binding ErrorMessage}" Grid.Row="4" Grid.ColumnSpan="6" Foreground="Red" Visibility="{Binding VisibleError}"/>
     </Grid>
 </UserControl>

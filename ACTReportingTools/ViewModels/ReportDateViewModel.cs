@@ -134,11 +134,7 @@ namespace ACTReportingTools.ViewModels
             EnableDatePicker = true;
         }
         
-        public async Task BtnGenerateReport()
-        {
-
-            await _windowManager.ShowWindowAsync(new ReportPreviewViewModel());
-         }
+        
 
         public bool CanBtnGenerateReport
         {
@@ -183,6 +179,12 @@ namespace ACTReportingTools.ViewModels
                 errorMessage = value;
                 NotifyOfPropertyChange(() => ErrorMessage);
             }
+        }
+
+        public async Task BtnGenerateReport()
+        {
+            var result = new ProcessReport(StartDate, EndDate);
+            //await _windowManager.ShowWindowAsync(new ReportPreviewViewModel());
         }
     }
 }

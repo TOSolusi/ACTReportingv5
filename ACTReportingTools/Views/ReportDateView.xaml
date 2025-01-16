@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ACTReportingTools.Views"
+             xmlns:viewmodels="clr-namespace:ACTReportingTools.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:ReportDateViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="White" >
@@ -35,25 +36,25 @@
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
-            <RadioButton GroupName="PresetPeriodRadio" Grid.Row="0" Grid.ColumnSpan="3" FontSize="14" Margin="20 20 20 5" VerticalContentAlignment="Center">
+            <RadioButton GroupName="PresetPeriodRadio" Command="{Binding CommandCustomDate}" Grid.Row="0" Grid.ColumnSpan="3" FontSize="14" Margin="20 20 20 5" VerticalContentAlignment="Center">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <TextBlock Text="Custom Date :" FontSize="16" Margin="0 0 5 0" />
-                    <DatePicker Name="StartDate" FontSize="16" VerticalContentAlignment="Center" VerticalAlignment="Center" Margin="5 0 5 0"/>
+                    <DatePicker Name="DateStart"  Text="{Binding StartDate, Mode=TwoWay}" IsEnabled="{Binding EnableDatePicker}" FontSize="16" VerticalContentAlignment="Center" VerticalAlignment="Center" Margin="5 0 5 0"/>
                     <TextBlock Text="to" FontSize="16" Margin="5 0 5 0" />
-                    <DatePicker Name="EndDate" FontSize="16" VerticalContentAlignment="Center" VerticalAlignment="Center" Margin="5 0 5 0"/>
+                    <DatePicker Name="DateEnd" Text="{Binding EndDate, Mode=TwoWay}" IsEnabled="{Binding EnableDatePicker}" FontSize="16" VerticalContentAlignment="Center" VerticalAlignment="Center" Margin="5 0 5 0"/>
                 </StackPanel>
             </RadioButton>
-            <RadioButton GroupName="PresetPeriodRadio" IsChecked="True" Grid.Row="1" Grid.Column="0" FontSize="14" Margin="20 5 5 5" VerticalContentAlignment="Center">Today</RadioButton>
-            <RadioButton GroupName="PresetPeriodRadio" Grid.Row="1" Grid.Column="1" FontSize="14" Margin="5 5 20 5" VerticalContentAlignment="Center">Yesterday</RadioButton>
-            <RadioButton GroupName="PresetPeriodRadio" Grid.Row="2" Grid.Column="0" FontSize="14" Margin="20 5 5 5" VerticalContentAlignment="Center">This Week</RadioButton>
-            <RadioButton GroupName="PresetPeriodRadio" Grid.Row="2" Grid.Column="1" FontSize="14" Margin="5 5 20 5" VerticalContentAlignment="Center">Last Week</RadioButton>
-            <RadioButton GroupName="PresetPeriodRadio" Grid.Row="3" Grid.Column="0" FontSize="14" Margin="20 5 5 5" VerticalContentAlignment="Center">This Month</RadioButton>
-            <RadioButton GroupName="PresetPeriodRadio" Grid.Row="3" Grid.Column="1" FontSize="14" Margin="5 5 20 5" VerticalContentAlignment="Center">Last Month</RadioButton>
+            <RadioButton GroupName="PresetPeriodRadio" Command="{Binding CommandToday}" IsChecked="True" Grid.Row="1" Grid.Column="0" FontSize="14" Margin="20 5 5 5" VerticalContentAlignment="Center">Today</RadioButton>
+            <RadioButton GroupName="PresetPeriodRadio" Command="{Binding CommandYesterday}" Grid.Row="1" Grid.Column="1" FontSize="14" Margin="5 5 20 5" VerticalContentAlignment="Center">Yesterday</RadioButton>
+            <RadioButton GroupName="PresetPeriodRadio" Command="{Binding CommandThisWeek}" Grid.Row="2" Grid.Column="0" FontSize="14" Margin="20 5 5 5" VerticalContentAlignment="Center">This Week</RadioButton>
+            <RadioButton GroupName="PresetPeriodRadio" Command="{Binding CommandLastWeek}" Grid.Row="2" Grid.Column="1" FontSize="14" Margin="5 5 20 5" VerticalContentAlignment="Center">Last Week</RadioButton>
+            <RadioButton GroupName="PresetPeriodRadio" Command="{Binding CommandThisMonth}" Grid.Row="3" Grid.Column="0" FontSize="14" Margin="20 5 5 5" VerticalContentAlignment="Center">This Month</RadioButton>
+            <RadioButton GroupName="PresetPeriodRadio" Command="{Binding CommandLastMonth}" Grid.Row="3" Grid.Column="1" FontSize="14" Margin="5 5 20 5" VerticalContentAlignment="Center">Last Month</RadioButton>
         </Grid>
         <StackPanel Grid.Row="2">
                 <Button Name="BtnGenerateReport" Content="Generate Report" Margin="20" />
             </StackPanel>
+        <TextBlock Text="{Binding ErrorMessage}" Grid.Row="3" Grid.ColumnSpan="6" Foreground="Red" Visibility="{Binding VisibleError}"/>
 
-       
     </Grid>
 </UserControl>

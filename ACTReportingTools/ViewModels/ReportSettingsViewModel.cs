@@ -26,9 +26,23 @@ namespace ACTReportingTools.ViewModels
         public TimeOnly TimeTimeInTo { get; set; }
         public TimeOnly TimeTimeOutFrom { get; set; }
         public TimeOnly TimeTimeOutTo { get; set; }
+        public TimeOnly TimeBreakTimeFrom { get; set; }
+        public TimeOnly TimeBreakTimeTo { get; set; }
+        public TimeOnly TimeBreakTimeFriFrom { get; set; }
+        public TimeOnly TimeBreakTimeFriTo { get; set; }
         public string TimeOutFrom { get; set; }
         public string TimeOutTo { get; set; }
+        public string BreakTimeFrom { get; set; }
+        public string BreakTimeTo { get; set; }
+        public string BreakTimeDuration { get; set; }
+        public string BreakTimeFriFrom { get; set; }
+        public string BreakTimeFriTo { get; set; }
+        public string BreakTimeFriDuration { get; set; }
+        public string GracePeriod { get; set; }
+        public string DwellTime { get; set; }
+
         public string FileReportSettings { get; set; }
+        
         public ReportSettingsViewModel()
         {
             //TimeInFromHour = "0";
@@ -43,7 +57,7 @@ namespace ACTReportingTools.ViewModels
 
             HourNumbers = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"];
             MinuteNumbers = ["00", "15", "30", "45"];
-            DurationNumbers = ["00", "15", "30", "45", "60", "75", "90", "105", "120"];
+            DurationNumbers = ["15", "30", "45", "60", "75", "90", "105", "120"];
 
             SettingsConfig = ConfigHelper.LoadConfig(FileReportSettings);
             TimeInFrom = (string)SettingsConfig["TimeInFrom"];
@@ -52,6 +66,14 @@ namespace ACTReportingTools.ViewModels
             TimeOutTo = (string)SettingsConfig["TimeOutTo"];
             CheckSaturday = (bool)SettingsConfig["CheckSaturday"];
             CheckSunday = (bool)SettingsConfig["CheckSunday"];
+            BreakTimeFrom = (string)SettingsConfig["BreakTimeFrom"];
+            BreakTimeTo = (string)SettingsConfig["BreakTimeTo"];
+            BreakTimeDuration = (string)SettingsConfig["BreakTimeDuration"];
+            BreakTimeFriFrom = (string)SettingsConfig["BreakTimeFriFrom"];
+            BreakTimeFriTo = (string)SettingsConfig["BreakTimeFriTo"];
+            BreakTimeFriDuration = (string)SettingsConfig["BreakTimeFriDuration"];
+            GracePeriod = (string)SettingsConfig["GracePeriod"];
+            DwellTime = (string)SettingsConfig["DwellTime"];
 
             TimeInFromHour = TimeInFrom.Substring(0, 2);
             TimeInFromMinutes = TimeInFrom[^2..];
@@ -64,7 +86,149 @@ namespace ACTReportingTools.ViewModels
 
             TimeOutToHour = TimeOutTo.Substring(0, 2);
             TimeOutToMinutes = TimeOutTo[^2..];
+
+            BreakTimeFromHour = BreakTimeFrom.Substring(0, 2);
+            BreakTimeFromMinutes = BreakTimeFrom[^2..];
+
+            BreakTimeToHour = BreakTimeTo.Substring(0, 2);
+            BreakTimeToMinutes = BreakTimeTo[^2..];
+
+            BreakTimeFriFromHour = BreakTimeFriFrom.Substring(0, 2);
+            BreakTimeFriFromMinutes = BreakTimeFriFrom[^2..];
+
+            BreakTimeFriToHour = BreakTimeFriTo.Substring(0, 2);
+            BreakTimeFriToMinutes = BreakTimeFriTo[^2..];
+
         }
+
+        private string breakTimeFriToHour;
+
+        public string BreakTimeFriToHour
+        {
+            get { return breakTimeFriToHour; }
+            set
+            {
+                breakTimeFriToHour = value;
+                NotifyOfPropertyChange(() => BreakTimeFriToHour);
+                if (BreakTimeFriToMinutes == null)
+                {
+                    BreakTimeFriToMinutes = "0";
+                }
+                TimeBreakTimeFriTo = new TimeOnly(int.Parse(BreakTimeFriToHour), int.Parse(BreakTimeFriToMinutes));
+                NotifyOfPropertyChange(() => CanButtonSaveSettings);
+            }
+        }
+
+        private string breakTimeFriToMinutes;
+
+        public string BreakTimeFriToMinutes
+        {
+            get { return breakTimeFriToMinutes; }
+            set
+            {
+                breakTimeFriToMinutes = value;
+                NotifyOfPropertyChange(() => BreakTimeFriToMinutes);
+                TimeBreakTimeFriTo = new TimeOnly(int.Parse(BreakTimeFriToHour), int.Parse(BreakTimeFriToMinutes));
+                NotifyOfPropertyChange(() => CanButtonSaveSettings);
+            }
+        }
+
+
+        private string breaktTimeFriFromHour;
+
+        public string BreakTimeFriFromHour
+        {
+            get { return breaktTimeFriFromHour; }
+            set
+            {
+                breaktTimeFriFromHour = value;
+                NotifyOfPropertyChange(() => BreakTimeFriFromHour);
+                if (BreakTimeFriFromMinutes == null)
+                {
+                    BreakTimeFriFromMinutes = "0";
+                }
+                TimeBreakTimeFriFrom = new TimeOnly(int.Parse(BreakTimeFriFromHour), int.Parse(BreakTimeFriFromMinutes));
+                NotifyOfPropertyChange(() => CanButtonSaveSettings);
+            }
+        }
+
+        private string breakTimeFriFromMinutes;
+
+        public string BreakTimeFriFromMinutes
+        {
+            get { return breakTimeFriFromMinutes; }
+            set
+            {
+                breakTimeFriFromMinutes = value;
+                TimeBreakTimeFriFrom = new TimeOnly(int.Parse(BreakTimeFriFromHour), int.Parse(BreakTimeFriFromMinutes));
+                NotifyOfPropertyChange(() => CanButtonSaveSettings);
+            }
+        }
+
+
+        private string breakTimeToHour;
+
+        public string BreakTimeToHour
+        {
+            get { return breakTimeToHour; }
+            set 
+            { 
+                breakTimeToHour = value;
+                NotifyOfPropertyChange(() => BreakTimeToHour);
+                if (BreakTimeToMinutes == null)
+                {
+                    BreakTimeToMinutes = "0";
+                }
+                TimeBreakTimeTo = new TimeOnly(int.Parse(BreakTimeToHour), int.Parse(BreakTimeToMinutes));
+                NotifyOfPropertyChange(() => CanButtonSaveSettings);
+            }
+        }
+
+        private string breakTimeToMinutes;
+
+        public string BreakTimeToMinutes
+        {
+            get { return breakTimeToMinutes; }
+            set { 
+                breakTimeToMinutes = value;
+                NotifyOfPropertyChange(() => BreakTimeToMinutes);
+                TimeBreakTimeTo = new TimeOnly(int.Parse(BreakTimeToHour), int.Parse(BreakTimeToMinutes));
+                NotifyOfPropertyChange(() => CanButtonSaveSettings);
+            }
+        }
+
+
+        private string breaktTimeFromHour;
+
+        public string BreakTimeFromHour
+        {
+            get { return breaktTimeFromHour; }
+            set 
+            { 
+                breaktTimeFromHour = value;
+                NotifyOfPropertyChange(() => BreakTimeFromHour);
+                if (BreakTimeFromMinutes == null)
+                {
+                    BreakTimeFromMinutes = "0";
+                }
+                TimeBreakTimeFrom = new TimeOnly(int.Parse(BreakTimeFromHour), int.Parse(BreakTimeFromMinutes));
+                NotifyOfPropertyChange(() => CanButtonSaveSettings);
+            }
+        }
+
+        private string breakTimeFromMinutes;
+
+        public string BreakTimeFromMinutes
+        {
+            get { return breakTimeFromMinutes; }
+            set 
+            { 
+                breakTimeFromMinutes = value;
+                TimeBreakTimeFrom = new TimeOnly(int.Parse(BreakTimeFromHour), int.Parse(BreakTimeFromMinutes));
+                NotifyOfPropertyChange(() => CanButtonSaveSettings);
+            }
+        }
+
 
         private bool checkSunday;
 
@@ -255,6 +419,14 @@ namespace ACTReportingTools.ViewModels
             SettingsConfig["TimeOutTo"] = TimeOutToHour + TimeOutToMinutes;
             SettingsConfig["CheckSaturday"] = CheckSaturday.ToString();
             SettingsConfig["CheckSunday"] = CheckSunday.ToString();
+            SettingsConfig["BreakTimeFrom"] = BreakTimeFromHour + breakTimeFromMinutes;
+            SettingsConfig["BreakTimeTo"] = BreakTimeToHour + BreakTimeToMinutes;
+            SettingsConfig["BreakTimeDuration"] = BreakTimeDuration;
+            SettingsConfig["BreakTimeFriFrom"] = BreakTimeFriFromHour + breakTimeFriFromMinutes;
+            SettingsConfig["BreakTimeFriTo"] = BreakTimeFriToHour + BreakTimeFriToMinutes;
+            SettingsConfig["BreakTimeFriDuration"] = BreakTimeFriDuration;
+            SettingsConfig["GracePeriod"] = GracePeriod;
+            SettingsConfig["DwellTime"] = DwellTime;
             ConfigHelper.SetConfig(SettingsConfig, FileReportSettings);
             MessageBox.Show("Report Settings Saved");
             menuViewModel.ButtonReportDate();
@@ -286,6 +458,18 @@ namespace ACTReportingTools.ViewModels
                 {
                     value = false;
                     ErrorMessage = ErrorMessage + "Time In To is Larger than Time Out From.";
+                    VisibleError = Visibility.Visible;
+                }
+                else if (TimeBreakTimeFrom > TimeBreakTimeTo)
+                {
+                    value = false;
+                    ErrorMessage = ErrorMessage + "Break Time Start is Later than End of Break Time.";
+                    VisibleError = Visibility.Visible;
+                }
+                else if (TimeBreakTimeFriFrom > TimeBreakTimeFriTo)
+                {
+                    value = false;
+                    ErrorMessage = ErrorMessage + "Break Time on Friday Start is Later than End of Break Time on Friday.";
                     VisibleError = Visibility.Visible;
                 }
                 else

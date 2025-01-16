@@ -24,5 +24,7 @@ namespace ACTReportingTools.Views
         {
             InitializeComponent();
         }
+
+       
     }
 }

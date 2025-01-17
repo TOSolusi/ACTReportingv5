@@ -6,20 +6,17 @@ using System.Threading.Tasks;
 
 namespace ACTReportingTools.Models
 {
-    public class RecordModel
+    public class RecordWorkingModel
     {
-       
-            public string UserNumber { get; set; }
-            public string Name { get; set; }
-            public string Group { get; set; }
-            //public DateOnly DateIn { get; set; }
+        public string UserNumber { get; set; }
+        public string Name { get; set; }
+        public string Group { get; set; }
+        //public DateOnly DateIn { get; set; }
         //public DateOnly DateOut { get; set; }
         public DateTime TimeIn { get; set; }
-            public DateTime TimeOut { get; set; }
+        public DateTime TimeOut { get; set; }
         public DateTime TimeIn2 { get; set; }
         public TimeSpan TotalHours { get; set; }
         public TimeSpan UnaccountedHours { get; set; }
-        public string Remarks { get; set; }
-
     }
 }

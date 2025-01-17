@@ -5,6 +5,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Composition;
 using System.Formats.Tar;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,10 @@ namespace ACTReportingTools.Helpers
         public string TimeInTo { get; set; }
         public string TimeOutTo { get; set; }
         public string TimeOutFrom { get; set; }
+        public string TimeInFriFrom { get; set; }
+        public string TimeInFriTo { get; set; }
+        public string TimeOutFriTo { get; set; }
+        public string TimeOutFriFrom { get; set; }
         public bool CheckSaturday { get; set; }
         public bool CheckSunday { get; set; }
         public string BreakTimeFrom { get; set; }
@@ -32,6 +37,8 @@ namespace ACTReportingTools.Helpers
         public string GracePeriod { get; set; }
         public string DwellTime { get; set; }
 
+        ObservableCollection<RecordModel> recordResult { get; set; }
+        ObservableCollection<RecordModel> recordInCheck {  get; set; }
         public string FileReportSettings { get; set; }
         public ProcessReport(string startDate, string endDate)
         {
@@ -55,15 +62,152 @@ namespace ACTReportingTools.Helpers
             GracePeriod = (string)SettingsConfig["GracePeriod"];
             DwellTime = (string)SettingsConfig["DwellTime"];
 
+         //for test run
             var result = Samplerun();
+            
+            recordInCheck = new();
+            recordResult = new();
 
+            int[] inputDoorNumber = { 1 };
+            int[] outputDoorNumber = { 2 };
+
+            foreach (EventLogModel a in result)
+            {
+                var userId = a.EventData;
+                TimeOnly timeInFrom = new();
+                TimeOnly timeInTo = new();
+                TimeOnly timeOutFrom = new();
+                TimeOnly timeOutTo = new();
+                TimeOnly breakTimeFrom = new();
+                TimeOnly breakTimeTo = new();
+                int duration = new();
+
+
+                if (a.When.DayOfWeek == DayOfWeek.Sunday) 
+                {
+                    if (!CheckSunday)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        timeInFrom = new TimeOnly(0, 1);
+                        timeInTo = new TimeOnly(23, 59);
+                        timeOutFrom = new TimeOnly(0, 1);
+                        timeOutTo = new TimeOnly(23, 59);
+                    }
+
+                }
+                else if (a.When.DayOfWeek == DayOfWeek.Saturday)
+                {
+                    if (!CheckSaturday)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        timeInFrom = new TimeOnly(0, 1);
+                        timeInTo = new TimeOnly(23, 59);
+                        timeOutFrom = new TimeOnly(0, 1);
+                        timeOutTo = new TimeOnly(23, 59);
+                    }
+                }
+                else if (a.When.DayOfWeek == DayOfWeek.Friday)
+                {
+                    timeInFrom = new TimeOnly(int.Parse(TimeInFrom.Substring(0, 2)), int.Parse(TimeInFrom[^2..])) ;
+                    timeInTo = new TimeOnly(int.Parse(TimeInTo.Substring(0, 2)), int.Parse(TimeInTo[^2..]));
+                    timeOutFrom = new TimeOnly(int.Parse(TimeOutFrom.Substring(0, 2)), int.Parse(TimeOutFrom[^2..]));
+                    timeOutTo = new TimeOnly(int.Parse(TimeOutTo.Substring(0, 2)), int.Parse(TimeOutTo[^2..]));
+
+                    breakTimeFrom = new TimeOnly(int.Parse(BreakTimeFriFrom.Substring(0, 2)), int.Parse(BreakTimeFriFrom[^2..]));
+                    breakTimeTo = new TimeOnly(int.Parse(BreakTimeFriTo.Substring(0, 2)), int.Parse(BreakTimeFriTo[^2..]));
+                    duration = int.Parse(BreakTimeFriDuration);
+                }
+                else
+                {
+                    timeInFrom = new TimeOnly(int.Parse(TimeInFrom.Substring(0, 2)), int.Parse(TimeInFrom[^2..]));
+                    timeInTo = new TimeOnly(int.Parse(TimeInTo.Substring(0, 2)), int.Parse(TimeInTo[^2..]));
+                    timeOutFrom = new TimeOnly(int.Parse(TimeOutFrom.Substring(0, 2)), int.Parse(TimeOutFrom[^2..]));
+                    timeOutTo = new TimeOnly(int.Parse(TimeOutTo.Substring(0, 2)), int.Parse(TimeOutTo[^2..]));
+
+                    breakTimeFrom = new TimeOnly(int.Parse(BreakTimeFrom.Substring(0, 2)), int.Parse(BreakTimeFrom[^2..]));
+                    breakTimeTo = new TimeOnly(int.Parse(BreakTimeTo.Substring(0, 2)), int.Parse(BreakTimeTo[^2..]));
+                    duration = int.Parse(BreakTimeDuration);
+                }
+
+
+                RecordModel rep = recordInCheck.Where(person => person.UserNumber == a.EventData.ToString()).FirstOrDefault();
+
+                
+
+                if (rep == null) //cannot find the user in recordInCheck
+                {
+                    //then create new records
+                    rep = new RecordModel();
+                    rep.UserNumber = a.EventData.ToString();
+                    rep.Name = a.OriginalForename+" "+a.OriginalSurname;
+                    
+                    //Check rules  here
+
+                   
+                }
+
+
+                if ( inputDoorNumber.Contains(a.Door) ) //meaning it is inside 
+                {
+
+                    if (rep.TimeIn != DateTime.MinValue)
+                    {
+                        rep.TimeIn2 = a.When;
+                    }
+                    else
+                    {
+                       //if (TimeOnly.FromDateTime(a.When) < timeInFrom)
+                       // {
+                       //     rep.TimeIn = new DateTime(DateOnly.FromDateTime(a.When), timeInFrom);
+                       // }
+                       //else
+                       // {
+                       //     if (TimeOnly.FromDateTime(a.When) < timeInFrom)
+                       // }
+
+                        rep.TimeIn = a.When;
+                    }
+                    recordInCheck.Add(rep);
+                }
+                else if ( outputDoorNumber.Contains(a.Door)) //meaning it is outside
+                {
+                    rep.TimeOut = a.When;
+                    rep.TotalHours = rep.TimeOut - rep.TimeIn;
+                    
+                    recordResult.Add(rep);
+                    
+                    recordInCheck.Remove(rep);
+                    
+                }
+
+                
+               
+                
+            }
+            
         }
 
+        public ObservableCollection<RecordModel> GetResults()
+        {
+            return recordResult;
+        }
         private ObservableCollection<EventLogModel> Samplerun()
         {
             SampleModel test = new();
             return test.AddSample();
             
+        }
+
+        private DateTime CheckDay(DateTime dt)
+        {
+            dt = dt.AddDays(1);
+            return dt;
         }
 
     }

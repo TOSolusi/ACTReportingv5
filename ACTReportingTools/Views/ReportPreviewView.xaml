@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:syncfusion="http://schemas.syncfusion.com/wpf" 
         xmlns:local="clr-namespace:ACTReportingTools.Views"
+         xmlns:viewmodels="clr-namespace:ACTReportingTools.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:ReportPreviewViewModel}"
         mc:Ignorable="d"
         Title="Report Preview" MinHeight="450" MinWidth="800">
     <Grid>
@@ -12,9 +13,9 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <syncfusion:SfDataGrid AutoGenerateColumns="False" AllowSorting="True" Grid.Row="0"
-                               AllowGrouping="True" AllowFiltering="True" Margin="20">
-            <syncfusion:SfDataGrid.Columns>
+        <syncfusion:SfDataGrid AutoGenerateColumns="True" AllowSorting="True" Grid.Row="0" ShowGroupDropArea="True"
+                               AllowGrouping="True" AllowFiltering="True" Margin="20" ItemsSource="{Binding results}">
+            <!--<syncfusion:SfDataGrid.Columns>
                 <syncfusion:GridTextColumn MappingName="Department" Width="200"/>
                 <syncfusion:GridTextColumn MappingName="Name" Width="200"/>
                 <syncfusion:GridTextColumn MappingName="Week #" Width="60"/>
@@ -25,7 +26,7 @@
                 <syncfusion:GridTextColumn MappingName="Hours In" Width="100"/>
                 <syncfusion:GridTextColumn MappingName="Unaccounted" Width="100"/>
                 <syncfusion:GridTextColumn MappingName="Remark" Width="500"/>
-                </syncfusion:SfDataGrid.Columns>
+                </syncfusion:SfDataGrid.Columns>-->
            
         </syncfusion:SfDataGrid>
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">

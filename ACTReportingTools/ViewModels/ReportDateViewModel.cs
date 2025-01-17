@@ -183,8 +183,9 @@ namespace ACTReportingTools.ViewModels
 
         public async Task BtnGenerateReport()
         {
-            var result = new ProcessReport(StartDate, EndDate);
-            //await _windowManager.ShowWindowAsync(new ReportPreviewViewModel());
+            var result = new ProcessReport(StartDate, EndDate).GetResults();
+
+            await _windowManager.ShowWindowAsync(new ReportPreviewViewModel(result));
         }
     }
 }

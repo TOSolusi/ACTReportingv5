@@ -185,6 +185,7 @@ namespace ACTReportingTools.ViewModels
         {
             var result = new ProcessReport(StartDate, EndDate).GetResults();
 
+
             await _windowManager.ShowWindowAsync(new ReportPreviewViewModel(result));
         }
     }

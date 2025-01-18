@@ -146,6 +146,7 @@ namespace ACTReportingTools.Helpers
                     rep = new RecordModel();
                     rep.UserNumber = a.EventData.ToString();
                     rep.Name = a.OriginalForename+" "+a.OriginalSurname;
+                    rep.Remarks = "";
                     
                     //Check rules  here
 
@@ -156,20 +157,21 @@ namespace ACTReportingTools.Helpers
                 if ( inputDoorNumber.Contains(a.Door) ) //meaning it is inside 
                 {
 
+                    //if (rep.TimeIn != DateTime.MinValue)
+                    //{
+                    //    rep.TimeIn2 = a.When;
+                    //}
                     if (rep.TimeIn != DateTime.MinValue)
                     {
-                        rep.TimeIn2 = a.When;
+                        continue;
                     }
                     else
                     {
-                       //if (TimeOnly.FromDateTime(a.When) < timeInFrom)
-                       // {
-                       //     rep.TimeIn = new DateTime(DateOnly.FromDateTime(a.When), timeInFrom);
-                       // }
-                       //else
-                       // {
-                       //     if (TimeOnly.FromDateTime(a.When) < timeInFrom)
-                       // }
+                        if (TimeOnly.FromDateTime(a.When) < timeInFrom)
+                        {
+                            rep.TotalHours = a.When -  (new DateTime(DateOnly.FromDateTime(a.When), timeInFrom)) ;
+                        }
+                       
 
                         rep.TimeIn = a.When;
                     }
@@ -177,9 +179,33 @@ namespace ACTReportingTools.Helpers
                 }
                 else if ( outputDoorNumber.Contains(a.Door)) //meaning it is outside
                 {
+                    if (rep.TimeIn == DateTime.MinValue)
+                    {
+                        continue;
+                    }
+
                     rep.TimeOut = a.When;
-                    rep.TotalHours = rep.TimeOut - rep.TimeIn;
+
+                    rep.TotalHours = CheckDwellTime(rep.TimeIn, rep.TimeOut, rep.TotalHours);
+                    if (rep.TotalHours == new TimeSpan(0,0,0))
+                    {
+                        rep.Remarks = rep.Remarks + "Less than Dwell Time. ";
+                    }
+
+
+                    //if ((rep.TimeOut - rep.TimeIn) < new TimeSpan(0, int.Parse(DwellTime), 0))
+                    //{
+                    //    rep.TotalHours = new TimeSpan(0, 0, 0);
+                    //    rep.Remarks = rep.Remarks + "Less than Dwell Time. ";
+                    //}
+                    //else
+                    //{
+                    //    rep.TotalHours = rep.TotalHours + (rep.TimeOut - rep.TimeIn);
+                    //}
                     
+                    
+
+
                     recordResult.Add(rep);
                     
                     recordInCheck.Remove(rep);
@@ -190,7 +216,34 @@ namespace ACTReportingTools.Helpers
                
                 
             }
+
+            while (recordInCheck.Count > 0)
+            {
+                recordInCheck[0].TimeOut = new DateTime(DateOnly.FromDateTime(recordInCheck[0].TimeIn), new TimeOnly(23, 59, 0));
+                recordInCheck[0].TotalHours = CheckDwellTime(recordInCheck[0].TimeIn, recordInCheck[0].TimeOut, recordInCheck[0].TotalHours);
+                if (recordInCheck[0].TotalHours == new TimeSpan(0, 0, 0))
+                {
+                    recordInCheck[0].Remarks = recordInCheck[0].Remarks + "Less than Dwell Time. ";
+                }
+                recordResult.Add(recordInCheck[0]);
+                recordInCheck.RemoveAt(0);
+            }
             
+        }
+
+        public TimeSpan CheckDwellTime(DateTime inTime, DateTime outTime, TimeSpan calculatedHours)
+        {
+            if ((outTime - inTime) < new TimeSpan(0, int.Parse(DwellTime), 0))
+            {
+                calculatedHours = new TimeSpan(0, 0, 0);
+                
+            }
+            else
+            {
+                calculatedHours = calculatedHours + (outTime - inTime);
+            }
+
+            return calculatedHours;
         }
 
         public ObservableCollection<RecordModel> GetResults()

@@ -5,9 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:syncfusion="http://schemas.syncfusion.com/wpf" 
         xmlns:local="clr-namespace:ACTReportingTools.Views"
-         xmlns:viewmodels="clr-namespace:ACTReportingTools.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:ReportPreviewViewModel}"
+        xmlns:helpers="clr-namespace:ACTReportingTools.Helpers"
+        xmlns:viewmodels="clr-namespace:ACTReportingTools.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:ReportPreviewViewModel}"
         mc:Ignorable="d"
         Title="Report Preview" MinHeight="450" MinWidth="800">
+    <Window.Resources>
+        <helpers:CustomAggregate x:Key="customAggregate" />
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -21,7 +25,7 @@
                 <syncfusion:GridTextColumn MappingName="Name" Width="200" TextAlignment="Center" />
                 <syncfusion:GridTextColumn MappingName="Group" Width="200" TextAlignment="Center"/>
                 <syncfusion:GridTextColumn MappingName="Week" HeaderText="Week #" Width="80" TextAlignment="Center" />
-                <syncfusion:GridTextColumn MappingName="DateIn" HeaderText="Date IN" Width="150" TextAlignment="Left" />
+                <syncfusion:GridTextColumn MappingName="DateIn" HeaderText="Date IN" Width="150" TextAlignment="Left"  />
                 <syncfusion:GridTextColumn MappingName="TimeIn" HeaderText="Time IN" Width="80" AllowGrouping="False" TextAlignment="Left" />
                 <syncfusion:GridTextColumn MappingName="DateOut" HeaderText="Date OUT" Width="150" TextAlignment="Left"/>
                 <syncfusion:GridTextColumn MappingName="TimeOut" HeaderText="Time OUT" Width="100" AllowGrouping="False" TextAlignment="Left"/>
@@ -33,18 +37,29 @@
 
             </syncfusion:SfDataGrid.Columns>
 
-            <syncfusion:SfDataGrid.GroupSummaryRows>
-                <syncfusion:GridSummaryRow ShowSummaryInRow="False">
+            <syncfusion:SfDataGrid.GroupSummaryRows >
+                <syncfusion:GridSummaryRow ShowSummaryInRow="True" Title="Total {TotalUser} person with total time {TotalHoursCalculated} with {RemarkCount} remarks.">
                     <syncfusion:GridSummaryRow.SummaryColumns>
-                        <!--<syncfusion:GridSummaryColumn Name="PriceAmount"
-                                              Format="'Amount - {Sum:c}'"
-                                              MappingName=""
-                                              SummaryType="DoubleAggregate" />-->
+                        <syncfusion:GridSummaryColumn Name="TotalHoursCalculated"
+                                              Format="'{calculatedTotalHours}'"
+                                              MappingName="TotalHours" 
+                                              CustomAggregate="{StaticResource customAggregate}"
+                                              SummaryType="Custom" />
 
-                        <syncfusion:GridSummaryColumn Name="ProductCount"
-                                              Format="'Total Hours - {sum:d}'"
-                                              MappingName="TotalHours"
-                                              SummaryType="DoubleAggregate" />
+                        <syncfusion:GridSummaryColumn Name="TotalUser"
+                      Format="'{countPerson}'"
+                      MappingName="Name" 
+                      CustomAggregate="{StaticResource customAggregate}"
+                      SummaryType="Custom" />
+
+                        <!--<syncfusion:GridSummaryColumn Name="RemarksCount"
+                                              Format="'Total Remarks - {Count:d}'"
+                                              MappingName="Remarks"
+                                              SummaryType="CountAggregate" />-->
+
+                        <syncfusion:GridSummaryColumn Name="RemarkCount" Format="'{remarksCount}'" CustomAggregate="{StaticResource customAggregate}"
+                      MappingName="Remarks" SummaryType="Custom"  />
+                      
                     </syncfusion:GridSummaryRow.SummaryColumns>
                 </syncfusion:GridSummaryRow>
             </syncfusion:SfDataGrid.GroupSummaryRows>

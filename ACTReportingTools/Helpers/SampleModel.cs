@@ -36,7 +36,7 @@ namespace ACTReportingTools.Helpers
             events.Add(new EventLogModel() { EventID = 10, When = DateTime.Parse("11/01/2025 10:00:00"), Door = 2, EventData = 321, OriginalForename = "Test4", OriginalSurname = "Case" });
             events.Add(new EventLogModel() { EventID = 10, When = DateTime.Parse("11/01/2025 11:00:00"), Door = 1, EventData = 321, OriginalForename = "Test4", OriginalSurname = "Case" });
             events.Add(new EventLogModel() { EventID = 10, When = DateTime.Parse("11/01/2025 19:00:00"), Door = 2, EventData = 321, OriginalForename = "Test4", OriginalSurname = "Case" });
-            events.Add(new EventLogModel() { EventID = 1, When = DateTime.Parse("10/01/2025 07:45:00"), Door = 1, EventData = 32, OriginalForename = "Test2", OriginalSurname = "Case" });
+            events.Add(new EventLogModel() { EventID = 1, When = DateTime.Parse("10/01/2025 07:30:00"), Door = 1, EventData = 32, OriginalForename = "Test2", OriginalSurname = "Case" });
             events.Add(new EventLogModel() { EventID = 2, When = DateTime.Parse("10/01/2025 10:00:00"), Door = 2, EventData = 32, OriginalForename = "Test2", OriginalSurname = "Case" });
             events.Add(new EventLogModel() { EventID = 3, When = DateTime.Parse("10/01/2025 10:12:00"), Door = 1, EventData = 32, OriginalForename = "Test2", OriginalSurname = "Case" });
             events.Add(new EventLogModel() { EventID = 4, When = DateTime.Parse("10/01/2025 12:30:00"), Door = 2, EventData = 32, OriginalForename = "Test2", OriginalSurname = "Case" });

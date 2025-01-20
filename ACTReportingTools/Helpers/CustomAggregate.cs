@@ -89,7 +89,7 @@ namespace ACTReportingTools.Helpers
 
             }
 
-            stringResult = totalCalculatedHours.ToString(@"dd\:hh\:mm");
+            stringResult = totalCalculatedHours.ToString(@"dd\:hh\:mm\:ss");
             //stringResult = "test";
             return stringResult;
         }

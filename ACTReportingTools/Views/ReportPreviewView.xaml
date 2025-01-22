@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:syncfusion="http://schemas.syncfusion.com/wpf" 
         xmlns:local="clr-namespace:ACTReportingTools.Views"
+        xmlns:cal="http://www.caliburnproject.org"
         xmlns:helpers="clr-namespace:ACTReportingTools.Helpers"
         xmlns:viewmodels="clr-namespace:ACTReportingTools.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:ReportPreviewViewModel}"
         mc:Ignorable="d"
@@ -18,20 +19,20 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <syncfusion:SfDataGrid AutoGenerateColumns="False" AllowSorting="True" Grid.Row="0" HorizontalAlignment="Center" HorizontalContentAlignment="Center"
-                               ShowGroupDropArea="True" 
+                               ShowGroupDropArea="True" ColumnSizer="Auto" Name="dataGrid"
                                AllowGrouping="True" AllowFiltering="True" Margin="20" ItemsSource="{Binding displayResult}">
             <syncfusion:SfDataGrid.Columns>
 
-                <syncfusion:GridTextColumn MappingName="Name" Width="200" TextAlignment="Center" />
-                <syncfusion:GridTextColumn MappingName="Group" Width="200" TextAlignment="Center"/>
-                <syncfusion:GridTextColumn MappingName="Week" HeaderText="Week #" Width="80" TextAlignment="Center" />
-                <syncfusion:GridTextColumn MappingName="DateIn" HeaderText="Date IN" Width="150" TextAlignment="Left"  />
-                <syncfusion:GridTextColumn MappingName="TimeIn" HeaderText="Time IN" Width="80" AllowGrouping="False" TextAlignment="Left" />
-                <syncfusion:GridTextColumn MappingName="DateOut" HeaderText="Date OUT" Width="150" TextAlignment="Left"/>
-                <syncfusion:GridTextColumn MappingName="TimeOut" HeaderText="Time OUT" Width="100" AllowGrouping="False" TextAlignment="Left"/>
-                <syncfusion:GridTextColumn MappingName="TotalHours" HeaderText="Hours" Width="100" TextAlignment="Center"/>
+                <syncfusion:GridTextColumn MappingName="Name"  TextAlignment="Center" />
+                <syncfusion:GridTextColumn MappingName="Group"  TextAlignment="Center"/>
+                <syncfusion:GridTextColumn MappingName="Week" HeaderText="Week #" TextAlignment="Center" />
+                <syncfusion:GridTextColumn MappingName="DateIn" HeaderText="Date IN" TextAlignment="Left"  />
+                <syncfusion:GridTextColumn MappingName="TimeIn" HeaderText="Time IN" AllowGrouping="False" TextAlignment="Left" />
+                <syncfusion:GridTextColumn MappingName="DateOut" HeaderText="Date OUT" TextAlignment="Left"/>
+                <syncfusion:GridTextColumn MappingName="TimeOut" HeaderText="Time OUT" AllowGrouping="False" TextAlignment="Left"/>
+                <syncfusion:GridTextColumn MappingName="TotalHours" HeaderText="Hours" TextAlignment="Center"/>
                 <!--<syncfusion:GridTextColumn MappingName="Unaccounted" Width="100"/>-->
-                <syncfusion:GridTextColumn MappingName="Remarks" Width="200" TextAlignment="Center"/>
+                <syncfusion:GridTextColumn MappingName="Remarks" TextAlignment="Center"/>
 
 
 
@@ -67,8 +68,9 @@
         </syncfusion:SfDataGrid>
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
             <Button Content="Print" Margin="10 10 5 10" Width="100"/>
-            <Button Content="Export to .xls" Margin="5 10 5 10" Width="100"/>
+            <Button Name="Excel" Content="Export to .xls"  Command="{Binding SaveToXlsCommand}" CommandParameter="{Binding ElementName=dataGrid}" Margin="5 10 5 10" Width="100"/>
             <Button Content="Export to PDF" Margin="5 10 10 10" Width="100"/>
         </StackPanel>
+        <!--CommandParameter="{Binding ElementName=dataGrid}"-->
     </Grid>
 </Window>

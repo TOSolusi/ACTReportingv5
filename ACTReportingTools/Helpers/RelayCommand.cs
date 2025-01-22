@@ -14,6 +14,7 @@ namespace ACTReportingTools.Helpers
     public class RelayCommand : ICommand
     {
         private readonly Action _execute;
+        private readonly Action<object> _action;
         private readonly Func<bool> _canExecute;
         private bool _canperformaction = true;
         public RelayCommand(Action execute, Func<bool> canExecute = null)
@@ -21,8 +22,29 @@ namespace ACTReportingTools.Helpers
             _execute = execute;
             _canExecute = canExecute;
         }
+
+        public RelayCommand(Action<object> action, Func<bool> canExecute = null)
+        {
+            _action = action;
+            _canExecute = canExecute;
+
+        }
+
         public bool CanExecute(object parameter) => _canExecute == null || _canExecute();
-        public void Execute(object parameter) => _execute();
+        //public void Execute(object parameter) => _execute();
+
+        public void Execute(object parameter)
+        {
+            if (parameter != null)
+            {
+                _action(parameter);
+            }
+            else
+            {
+                _execute();
+            }
+        }
+
         public event EventHandler CanExecuteChanged;
 
         public bool CanPerformAction

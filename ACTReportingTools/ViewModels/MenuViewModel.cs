@@ -45,10 +45,47 @@ namespace ACTReportingTools.ViewModels
         }
 
         public ICommand CommandReportDate { get; }
+
+        //private ICommand commandReportDate;
+
+        //public ICommand CommandReportDate
+        //{
+        //    get
+        //    {
+        //        if (commandReportDate == null)
+        //            commandReportDate = new RelayCommand(args => ButtonReportDate());
+        //        return commandReportDate;
+        //    }
+
+        //}
+
+
         public ICommand CommandReportSettings { get; }
+        //private ICommand commandReportSettings;
+
+        //public ICommand CommandReportSettings
+        //{
+        //    get
+        //    {
+        //        if (commandReportSettings == null)
+        //            commandReportSettings = new RelayCommand(args => ButtonReportSettings());
+        //        return commandReportSettings;
+        //    }
+
+        //}
         public ICommand CommandSettings { get; }
         public ICommand CommandExit { get; }
+        //private ICommand commandExit;
+        //public ICommand CommandExit
+        //{
+        //    get
+        //    {
+        //        if (commandExit == null)
+        //            commandExit = new RelayCommand(args => ButtonExit());
+        //        return commandExit;
+        //    }
 
+        //}
         public string  FileNameReportSettings { get; set; } 
 
         public MenuViewModel()

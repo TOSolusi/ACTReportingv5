@@ -31,6 +31,7 @@
                 <syncfusion:GridTextColumn MappingName="DateOut" HeaderText="Date OUT" TextAlignment="Left"/>
                 <syncfusion:GridTextColumn MappingName="TimeOut" HeaderText="Time OUT" AllowGrouping="False" TextAlignment="Left"/>
                 <syncfusion:GridTextColumn MappingName="TotalHours" HeaderText="Hours" TextAlignment="Center"/>
+                <syncfusion:GridTextColumn MappingName="DailyTotal" HeaderText="Daily Total" TextAlignment="Center"/>
                 <!--<syncfusion:GridTextColumn MappingName="Unaccounted" Width="100"/>-->
                 <syncfusion:GridTextColumn MappingName="Remarks" TextAlignment="Center"/>
 

@@ -20,6 +20,7 @@ namespace ACTReportingTools.Models
         public DateTime TimeOut { get; set; }
         public DateTime TimeIn2 { get; set; }
         public TimeSpan TotalHours { get; set; }
+        public TimeSpan DailyTotal { get; set; }
         public TimeSpan UnaccountedHours { get; set; }
         public string Remarks { get; set; }
 

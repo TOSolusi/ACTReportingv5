@@ -97,10 +97,10 @@ namespace ACTReportingTools.Helpers
                     }
                     else
                     {
-                        timeInFrom = new TimeOnly(0, 1);
+                        timeInFrom = new TimeOnly(0, 1 );
                         timeInTo = new TimeOnly(23, 59);
-                        timeOutFrom = new TimeOnly(0, 1);
-                        timeOutTo = new TimeOnly(23, 59);
+                        timeOutFrom = new TimeOnly(0, 1 );
+                        timeOutTo = new TimeOnly(23, 59 );
                     }
 
                 }
@@ -205,7 +205,7 @@ namespace ACTReportingTools.Helpers
             //checking and flushing the unpair records
             while (recordInCheck.Count > 0)
             {
-                recordInCheck[0].TimeOut = new DateTime(DateOnly.FromDateTime(recordInCheck[0].TimeIn), new TimeOnly(23, 59, 0));
+                recordInCheck[0].TimeOut = new DateTime(DateOnly.FromDateTime(recordInCheck[0].TimeIn), new TimeOnly(23, 59));
                 recordInCheck[0].TotalHours = recordInCheck[0].TimeOut - recordInCheck[0].TimeIn;  //CheckDwellTime(recordInCheck[0].TimeIn, recordInCheck[0].TimeOut, recordInCheck[0].TotalHours);
                 recordResult.Add(recordInCheck[0]);
                 recordInCheck.RemoveAt(0);
@@ -230,7 +230,7 @@ namespace ACTReportingTools.Helpers
                     case DayOfWeek.Saturday:
                         timeInFrom = new TimeOnly(0, 1);
                         timeInTo = new TimeOnly(23, 59);
-                        timeOutFrom = new TimeOnly(0, 1);
+                        timeOutFrom = new TimeOnly(0, 1 );
                         timeOutTo = new TimeOnly(23, 59);
 
                         break;
@@ -253,12 +253,13 @@ namespace ACTReportingTools.Helpers
                 {
                     var listCheck = listResult.Where(r => (r.UserNumber == n) && (DateOnly.FromDateTime(r.TimeIn) == d)).ToList();
                     //recordcheck contains all the transactions of the day for the user
-                    DateTime lastTimeOut = DateTime.MinValue;
+                    DateTime lastTimeOut = new(0);
+                    TimeSpan dailyTotalHours = new(0);
 
                     if (listCheck.Count > 0)
                     {
                         foreach (var l in listCheck)
-                        { 
+                        {
                             RecordModel record = new RecordModel();
                             //RecordModel nextRecord = new RecordModel();
 
@@ -268,44 +269,53 @@ namespace ACTReportingTools.Helpers
                             {
                                 if (TimeOnly.FromDateTime(l.TimeIn) < timeInFrom) //checking the first morning
                                 {
-                                    l.TotalHours = l.TotalHours + ( l.TimeIn - (new DateTime(DateOnly.FromDateTime(l.TimeIn), timeInFrom))); //coming in earlier
+                                    l.TotalHours = l.TotalHours + (l.TimeIn - (new DateTime(DateOnly.FromDateTime(l.TimeIn), timeInFrom))); //coming in earlier
                                 }
                                 else if (TimeOnly.FromDateTime(l.TimeIn) > timeInTo)
                                 {
                                     l.Remarks = l.Remarks + "Late. ";
                                 }
-                                
-                              
-                                
+
+
+
 
                                 //RecordModel record = recordResult.Where(r => (r.UserNumber == n) || r.TimeIn == listCheck[0].TimeIn).FirstOrDefault();
                                 //if (record != null) { record.Remarks = listCheck[0].Remarks; }
                             }
 
-                            
+
                             record = recordResult.Where(r => (r.UserNumber == n) && r.TimeIn == l.TimeIn).FirstOrDefault();
                             if (record != null)
                             {
                                 record.Remarks = l.Remarks;
+
+                                //Rule 1. Check for Dwell Time
+                                if (l.TotalHours < new TimeSpan(0, int.Parse(DwellTime), 1))
+                                {
+                                    l.TotalHours = new TimeSpan(0);
+                                    l.Remarks = l.Remarks + "Less than Dwell Time. ";
+                                }
+
+
+                                //Rule 2. Grace Period
+                                var t =  l.TimeIn - lastTimeOut;
+
+                                if (t < new TimeSpan(0, int.Parse(GracePeriod), 1))
+                                {
+                                    l.TotalHours = l.TotalHours + t;
+                                }
+
+                                lastTimeOut = l.TimeOut;
+
+
+                                //Count Daily Total Hours
+                                dailyTotalHours = dailyTotalHours + l.TotalHours;
+
+                                if (listCheck.IndexOf(l) == (listCheck.Count - 1))
+                                {
+                                    record.DailyTotal = dailyTotalHours;
+                                }
                             }
-
-                            var t = l.TimeIn - lastTimeOut;
-
-                            if (t < new TimeSpan(0, int.Parse(GracePeriod),1))
-                            {
-                                l.TotalHours = l.TotalHours + t;
-                            }
-
-                            lastTimeOut = l.TimeOut;
-
-
-                            //Check Dwell Time
-                            if (l.TotalHours < new TimeSpan(0, int.Parse(DwellTime), 1))
-                            {
-                                l.TotalHours = new TimeSpan(0, 0, 0);
-                                l.Remarks = l.Remarks + "Less than Dwell Time. ";
-                            }
-
                         }
                     }
 

@@ -18,6 +18,7 @@ namespace ACTReportingTools.Models
         public string TimeOut { get; set; }
         public string TotalHours { get; set; }
         //public TimeSpan Unaccounted { get; set; }
+        public string? DailyTotal { get; set; }
         public string Remarks { get; set; }
     }
 }

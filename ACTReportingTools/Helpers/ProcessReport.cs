@@ -2,6 +2,7 @@
 using ACTReportingTools.ViewModels;
 using Caliburn.Micro;
 using Newtonsoft.Json.Linq;
+using Syncfusion.XlsIO.Implementation;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -38,6 +39,7 @@ namespace ACTReportingTools.Helpers
         public string BreakTimeFriDuration { get; set; }
         public string GracePeriod { get; set; }
         public string DwellTime { get; set; }
+        public string WorkDuration { get; set; }
         public TimeOnly timeInFrom { get; set; }
         public TimeOnly timeInTo { get; set; }
         public TimeOnly timeOutFrom { get; set; }
@@ -67,6 +69,7 @@ namespace ACTReportingTools.Helpers
             BreakTimeFriDuration = (string)SettingsConfig["BreakTimeFriDuration"];
             GracePeriod = (string)SettingsConfig["GracePeriod"];
             DwellTime = (string)SettingsConfig["DwellTime"];
+            WorkDuration = (string)SettingsConfig["WorkDuration"];
 
             //for test run
             var result = Samplerun();
@@ -314,6 +317,10 @@ namespace ACTReportingTools.Helpers
                                 if (listCheck.IndexOf(l) == (listCheck.Count - 1))
                                 {
                                     record.DailyTotal = dailyTotalHours;
+                                    if (dailyTotalHours < new TimeSpan(int.Parse(WorkDuration.Substring(0, 2)), int.Parse(WorkDuration[^2..]), 1))
+                                    {
+                                        record.Remarks = record.Remarks + " Daily Total Hours Less than Recommended.";
+                                    }
                                 }
                             }
                         }

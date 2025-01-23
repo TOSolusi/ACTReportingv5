@@ -16,15 +16,19 @@ using System.Windows;
 using Syncfusion.UI.Xaml.Grid;
 using System.Windows.Input;
 using ACTReportingTools.Helpers;
+using Syncfusion.Pdf;
+using Syncfusion.Pdf.Graphics;
+using Syncfusion.Pdf.Grid;
+using System.Drawing;
 
 namespace ACTReportingTools.ViewModels
 {
     public class ReportPreviewViewModel : Screen
     {
         public ObservableCollection<RecordModel> _results { get; set; }
-        public SfDataGrid dataGrid { get; set; } 
+        public SfDataGrid dataGrid { get; set; }
         public ObservableCollection<DisplayRecordModel> displayResult { get; set; }
-        
+
         public ReportPreviewViewModel(ObservableCollection<RecordModel> records)
         {
             displayResult = new();
@@ -45,7 +49,7 @@ namespace ACTReportingTools.ViewModels
                 displayRecord.DateOut = DateOnly.FromDateTime(record.TimeOut).ToString("dd-MM-yyyy") + " " + record.TimeOut.DayOfWeek.ToString();
                 displayRecord.TimeOut = TimeOnly.FromDateTime(record.TimeOut).ToString("HH:mm");
                 displayRecord.TotalHours = record.TotalHours.ToString(@"dd\:hh\:mm");
-                
+
                 if (record.DailyTotal != new TimeSpan(0))
                 {
                     displayRecord.DailyTotal = record.DailyTotal.ToString(@"dd\:hh\:mm");
@@ -76,6 +80,29 @@ namespace ACTReportingTools.ViewModels
 
         }
 
+        private ICommand _saveToPdfCommand;
+        public ICommand SaveToPdfCommand
+        {
+            get
+            {
+                if (_saveToPdfCommand == null)
+                    _saveToPdfCommand = new RelayCommand(args => SaveToPdf(args));
+                return _saveToPdfCommand;
+            }
+
+        }
+
+        private ICommand _printCommand;
+        public ICommand PrintCommand
+        {
+            get
+            {
+                if (_printCommand == null)
+                    _printCommand = new RelayCommand(args => PrintDoc(args));
+                return _printCommand;
+            }
+
+        }
 
         public void SaveToXls(Object args)
         {
@@ -121,5 +148,50 @@ namespace ACTReportingTools.ViewModels
             }
         }
 
+        public void SaveToPdf(object args)
+        {
+            var dg = args as SfDataGrid;
+
+            var options = new PdfExportingOptions();
+            options.FitAllColumnsInOnePage = true;
+            options.ExportAllPages = true;
+
+            var document = new PdfDocument();
+            document.PageSettings.Orientation = PdfPageOrientation.Landscape;
+            var page = document.Pages.Add();
+
+            var PDFGrid = dg.ExportToPdfGrid(dg.View, options);
+
+            var format = new PdfGridLayoutFormat()
+            {
+                Layout = PdfLayoutType.Paginate,
+                Break = PdfLayoutBreakType.FitPage
+            };
+
+            PDFGrid.Draw(page, new PointF(), format);
+            
+
+
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                Filter = "PDF Files(*.pdf)|*.pdf"
+            };
+
+            if (sfd.ShowDialog() == true)
+            {
+                using (Stream stream = sfd.OpenFile())
+                {
+                    document.Save(stream);
+                }
+
+            }
+
+        }
+
+        public void PrintDoc(object args)
+        {
+            var dg = args as SfDataGrid;
+            dg.ShowPrintPreview();
+        }
     }
 }

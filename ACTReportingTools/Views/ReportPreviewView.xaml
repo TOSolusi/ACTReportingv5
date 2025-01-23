@@ -68,10 +68,10 @@
 
         </syncfusion:SfDataGrid>
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
-            <Button Content="Print" Margin="10 10 5 10" Width="100"/>
+            <Button Content="Print" Command="{Binding PrintCommand}" CommandParameter="{Binding ElementName=dataGrid}" Margin="10 10 5 10" Width="100"/>
             <Button Name="Excel" Content="Export to .xls"  Command="{Binding SaveToXlsCommand}" CommandParameter="{Binding ElementName=dataGrid}" Margin="5 10 5 10" Width="100"/>
-            <Button Content="Export to PDF" Margin="5 10 10 10" Width="100"/>
-        </StackPanel>
+            <Button Content="Export to PDF" Command="{Binding SaveToPdfCommand}" CommandParameter="{Binding ElementName=dataGrid}" Margin="5 10 10 10" Width="100"/>
+        </StackPanel> 
         <!--CommandParameter="{Binding ElementName=dataGrid}"-->
     </Grid>
 </Window>

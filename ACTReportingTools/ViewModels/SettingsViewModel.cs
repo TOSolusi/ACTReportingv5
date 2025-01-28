@@ -88,6 +88,7 @@ namespace ACTReportingTools.ViewModels
         {
             //ConnString = $"Server={StringServer};Database={StringDatabase}; Integrated Security=true; Encrypt=false;";
             daAccess = new SQLDataAccess(connectionString: ConnString);
+            //daAccess = new SQLDataAccess();
             await daAccess.TestConnection();
         }
 

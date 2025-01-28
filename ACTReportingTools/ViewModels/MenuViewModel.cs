@@ -115,7 +115,7 @@ namespace ACTReportingTools.ViewModels
 
         public void ButtonSettings()
         {
-            ContentModel.MainContent = IoC.Get<ReportDateViewModel>();
+            ContentModel.MainContent = IoC.Get<SettingsViewModel>();
         }
 
         public void ButtonExit()

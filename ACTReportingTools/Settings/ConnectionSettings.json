@@ -1,4 +1,6 @@
 {
   "Server": "LAPTOP-SURFACE3\\SQLEXPRESS",
-  "Database": "Vaderbilt"
+  "Database": "Vaderbilt",
+  "INDoorNumbers": [ 1 ],
+  "OUTDoorNumbers": [1]
 }

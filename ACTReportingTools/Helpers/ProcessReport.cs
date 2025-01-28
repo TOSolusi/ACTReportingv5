@@ -2,6 +2,7 @@
 using ACTReportingTools.ViewModels;
 using Caliburn.Micro;
 using Newtonsoft.Json.Linq;
+using Syncfusion.Windows.Controls;
 using Syncfusion.XlsIO.Implementation;
 using System;
 using System.Collections.Generic;
@@ -44,14 +45,18 @@ namespace ACTReportingTools.Helpers
         public TimeOnly timeInTo { get; set; }
         public TimeOnly timeOutFrom { get; set; }
         public TimeOnly timeOutTo { get; set; }
+        public string sqlCommand { get; set; }
 
         ObservableCollection<RecordModel> recordResult { get; set; }
         ObservableCollection<RecordModel> recordInCheck { get; set; }
         public string FileReportSettings { get; set; }
         public ProcessReport(string startDate, string endDate)
         {
-            _startDate = startDate;
-            _endDate = endDate;
+            //_startDate = startDate.ToDateTime();
+            //_endDate = endDate.ToDateTime() + new TimeSpan(23,59,59);
+
+            //string p1 = _startDate.ToString("yyyy-MM-dd HH:mm:ss");
+            //string p2 = _endDate.ToString("yyyy-MM-dd HH:mm:ss");
 
             FileReportSettings = IoC.Get<FileLocationViewModel>().FileReportSettings;
             SettingsConfig = ConfigHelper.LoadConfig(FileReportSettings);
@@ -72,13 +77,20 @@ namespace ACTReportingTools.Helpers
             WorkDuration = (string)SettingsConfig["WorkDuration"];
 
             //for test run
-            var result = Samplerun();
+            //var result = Samplerun();
+
+            //sqlCommand = $"Select * from Log where ( (\"When\" between '{p1}' and '{p2}') and ((Event=50) or (Event=52)) ) order by \"When\"";
+            
+
+            SQLDataAccess daAccess = new SQLDataAccess();
+
+            var result = daAccess.GetLogReport(startDate, endDate);
 
             recordInCheck = new();
             recordResult = new();
 
             int[] inputDoorNumber = { 1 };
-            int[] outputDoorNumber = { 2 };
+            //int[] outputDoorNumber = { 2 };
 
             foreach (EventLogModel a in result)
             {
@@ -159,7 +171,7 @@ namespace ACTReportingTools.Helpers
                 }
 
 
-                if (inputDoorNumber.Contains(a.Door)) //meaning it is inside 
+                if ( (inputDoorNumber.Contains(a.Door))  && (a.Event == 50) ) //meaning it is inside 
                 {
 
                     //if (rep.TimeIn != DateTime.MinValue)
@@ -176,7 +188,7 @@ namespace ACTReportingTools.Helpers
                     }
                     recordInCheck.Add(rep);
                 }
-                else if (outputDoorNumber.Contains(a.Door)) //meaning it is outside
+                else if ((inputDoorNumber.Contains(a.Door)) && (a.Event == 52))//meaning it is outside
                 {
                     if (rep.TimeIn == DateTime.MinValue)
                     {

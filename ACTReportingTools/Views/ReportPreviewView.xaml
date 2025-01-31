@@ -40,7 +40,7 @@
             </syncfusion:SfDataGrid.Columns>
 
             <syncfusion:SfDataGrid.GroupSummaryRows >
-                <syncfusion:GridSummaryRow ShowSummaryInRow="True" Title="Total {TotalUser} person with total time (day:hh:mm) {TotalHoursCalculated} with {RemarkCount} remarks.">
+                <syncfusion:GridSummaryRow ShowSummaryInRow="True" Title="Total {TotalUser} person with total time (hh:mm) {TotalHoursCalculated} with {RemarkCount} remarks.">
                     <syncfusion:GridSummaryRow.SummaryColumns>
                         <syncfusion:GridSummaryColumn Name="TotalHoursCalculated"
                                               Format="'{calculatedTotalHours}'"

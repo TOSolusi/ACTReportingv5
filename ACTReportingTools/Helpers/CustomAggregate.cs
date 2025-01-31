@@ -96,7 +96,9 @@ namespace ACTReportingTools.Helpers
 
             }
 
-            stringResult = totalCalculatedHours.ToString(@"dd\:hh\:mm");
+            //stringResult = totalCalculatedHours.ToString(@"dd\:hh\:mm\");
+            stringResult = $"{((totalCalculatedHours.Days * 24) + (totalCalculatedHours.Hours)).ToString("00")}:{totalCalculatedHours.Minutes.ToString("00")}";
+
             //stringResult = "test";
             return stringResult;
         }

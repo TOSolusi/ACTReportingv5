@@ -83,13 +83,20 @@ namespace ACTReportingTools.Helpers
             {
                 foreach (DisplayRecordModel o in values)
                 {
-                    TimeSpan timeCounter = new TimeSpan(int.Parse(o.TotalHours.Substring(0, 2)), int.Parse(o.TotalHours.Substring(3, 2)), int.Parse(o.TotalHours.Substring(6, 2)), 0);
-                    totalCalculatedHours = totalCalculatedHours.Add(timeCounter);
+                    if (o.DailyTotal == null)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        TimeSpan timeCounter = new TimeSpan(int.Parse(o.DailyTotal.Substring(0, 2)), int.Parse(o.DailyTotal.Substring(3, 2)), int.Parse(o.DailyTotal.Substring(6, 2)), 0);
+                        totalCalculatedHours = totalCalculatedHours.Add(timeCounter);
+                    }
                 }
 
             }
 
-            stringResult = totalCalculatedHours.ToString(@"dd\:hh\:mm\:ss");
+            stringResult = totalCalculatedHours.ToString(@"dd\:hh\:mm");
             //stringResult = "test";
             return stringResult;
         }

@@ -107,6 +107,8 @@ namespace ACTReportingTools.Helpers
                     TimeOnly breakTimeTo = new();
                     int duration = new();
 
+
+
                     if (a.When.DayOfWeek == DayOfWeek.Sunday)
                     {
                         if (!CheckSunday)
@@ -166,6 +168,7 @@ namespace ACTReportingTools.Helpers
                         //then create new records
                         rep = new RecordModel();
                         rep.UserNumber = a.EventData.ToString();
+                        
                         rep.Name = a.OriginalForename + " " + a.OriginalSurname;
                         rep.Remarks = "";
                     }
@@ -215,7 +218,21 @@ namespace ACTReportingTools.Helpers
 
                 recordResult = new ObservableCollection<RecordModel>(listResult);
                   
-            var userRange = recordResult.Select(n => n.UserNumber).Distinct().ToList();
+            List<string> userRange = recordResult.Select(n => n.UserNumber).Distinct().ToList();
+            ObservableCollection<UserModel> users = new ObservableCollection<UserModel>();
+
+            ObservableCollection<UserModel> userInfo = daAccess.GetUsers(userRange);
+
+
+            //foreach (string n in userRange)
+            //{
+            //    UserModel user = new UserModel();
+            //    user.UserNumber = n;
+            //    user.Name = recordResult.Where(r => r.UserNumber == n).Select(r => r.Name).FirstOrDefault();
+            //    user.Group = recordResult.Where(r => r.UserNumber == n).Select(r => r.Group).FirstOrDefault();
+            //    users.Add(user);
+            //}
+
             var dateRange = recordResult.OrderBy(d => d.TimeIn).Select(n => DateOnly.FromDateTime(n.TimeIn.Date)).Distinct().ToList();
 
             //Applying the rules
@@ -259,6 +276,8 @@ namespace ACTReportingTools.Helpers
                         {
                             RecordModel record = new RecordModel();
                             //RecordModel nextRecord = new RecordModel();
+
+                            l.Group = userInfo.Where(u => u.UserNumber == n).Select(u => u.UserGroup).FirstOrDefault();
 
                             //Checking the TimeIn Rule for late
                             if (listCheck.IndexOf(l) == 0)

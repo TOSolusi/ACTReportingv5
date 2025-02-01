@@ -8,7 +8,7 @@ namespace ACTReportingTools.Models
 {
     public class UserModel
     {
-        public int UserNumber { get; set; }
+        public string UserNumber { get; set; }
         public string Forename { get; set; }
         public string Surname { get; set; }
         public string UserGroup { get; set; }

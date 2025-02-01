@@ -6,6 +6,7 @@ using Newtonsoft.Json.Linq;
 using Syncfusion.Windows.Controls;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -23,7 +24,7 @@ namespace ACTReportingTools.Helpers
         public string connString { get; set; }
         public JObject SettingsConfig { get; set; }
         public string FileSettings { get; set; }
-        public string  sqlCommand { get; set; }
+        public string sqlCommand { get; set; }
 
         public SQLDataAccess()
         {
@@ -42,7 +43,7 @@ namespace ACTReportingTools.Helpers
         {
             connString = connectionString;
 
-           
+
         }
 
         public async Task TestConnection()
@@ -64,7 +65,7 @@ namespace ACTReportingTools.Helpers
         public BindableCollection<EventLogModel> GetLogReport(string StartDate, string EndDate)
         {
             DateTime _startDate = StartDate.ToDateTime();
-            DateTime _endDate = EndDate.ToDateTime() + new TimeSpan(23,59,59);
+            DateTime _endDate = EndDate.ToDateTime() + new TimeSpan(23, 59, 59);
 
             string p1 = _startDate.ToString("yyyy-MM-dd HH:mm:ss");
             string p2 = _endDate.ToString("yyyy-MM-dd HH:mm:ss");
@@ -77,9 +78,9 @@ namespace ACTReportingTools.Helpers
                 $"Order by [When]";
 
             BindableCollection<EventLogModel> output = new BindableCollection<EventLogModel>();
-            
-                using (SqlConnection conn = new SqlConnection(connString))
-                {
+
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
                 try
                 {
                     SqlCommand cmd = new SqlCommand(sqlCommand, conn);
@@ -116,12 +117,71 @@ namespace ACTReportingTools.Helpers
                 {
                     MessageBox.Show(ex.Message);
                 }
-                }
-                return output;
             }
-            
-           
-        
+            return output;
+        }
 
+
+        public ObservableCollection<UserModel> GetUsers(List<String> users)
+        {
+            ObservableCollection<UserModel> userLists = new ObservableCollection<UserModel>();
+            foreach (String user in users)
+            {
+                sqlCommand = $"Select UserNumber, [Group], UserField1, UserField2, Forename, Surname from Users where UserNumber = {user}";
+                UserModel output = new UserModel();
+                using (SqlConnection conn = new SqlConnection(connString))
+                {
+                    try
+                    {
+                        SqlCommand cmd = new SqlCommand(sqlCommand, conn);
+                        conn.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            output.UserNumber = reader[0].ToString();
+                            output.UserGroup =  GetGroupName(reader[1].ToString());
+                            output.UserField1 = reader[2].ToString();
+                            output.UserField2 = reader[3].ToString();
+                            //output.Name = reader[4].ToString() + " " + reader[5].ToString();
+                            output.Forename = reader[4].ToString();
+                            output.Surname = reader[5].ToString();
+                        }
+                        reader.Close();
+                        userLists.Add(output);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
+            }
+            return userLists;
+
+        }
+
+        public string GetGroupName(string group)
+        {
+            string groupName = "";
+            sqlCommand = $"Select Name from UserGroups where [Group No] = {group}";
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand(sqlCommand, conn);
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        groupName = reader[0].ToString();
+                    }
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            return groupName;
+        }
     }
 }

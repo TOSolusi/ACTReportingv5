@@ -11,7 +11,8 @@
 "BreakTimeDuration" : "60",
 "BreakTimeFriFrom" : "1130",
 "BreakTimeFriTo" : "1400",
-"BreakTimeFriDuration" : "90",
+  "BreakTimeFriDuration": "90",
+  "InOfficeBreakTimeDuration": "30",
 "GracePeriod" : "15",
 "DwellTime" : "30"
 }

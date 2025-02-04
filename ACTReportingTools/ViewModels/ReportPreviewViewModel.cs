@@ -48,9 +48,21 @@ namespace ACTReportingTools.ViewModels
                 displayRecord.TimeIn = TimeOnly.FromDateTime(record.TimeIn).ToString("HH:mm");
                 displayRecord.DateOut = DateOnly.FromDateTime(record.TimeOut).ToString("dd-MM-yyyy") + " " + record.TimeOut.DayOfWeek.ToString();
                 displayRecord.TimeOut = TimeOnly.FromDateTime(record.TimeOut).ToString("HH:mm");
-                displayRecord.TotalHours = record.TotalHours.ToString(@"dd\:hh\:mm");
 
-                if (record.DailyTotal != new TimeSpan(0))
+                if (record.TotalHours < new TimeSpan(0))
+                {
+                    displayRecord.TotalHours ="-"+ record.TotalHours.ToString(@"dd\:hh\:mm");
+                }
+                else
+                {
+                    displayRecord.TotalHours = record.TotalHours.ToString(@"dd\:hh\:mm");
+                }
+                
+                if (record.DailyTotal < new TimeSpan(0))
+                {
+                    displayRecord.DailyTotal = "-"+record.DailyTotal.ToString(@"dd\:hh\:mm");
+                }
+                else if (record.DailyTotal > new TimeSpan(0))
                 {
                     displayRecord.DailyTotal = record.DailyTotal.ToString(@"dd\:hh\:mm");
                 }

@@ -2,6 +2,7 @@
 using ACTReportingTools.ViewModels;
 using Caliburn.Micro;
 using Newtonsoft.Json.Linq;
+using Syncfusion.Data.Extensions;
 using Syncfusion.Windows.Controls;
 using Syncfusion.XlsIO.Implementation;
 using System;
@@ -15,6 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ACTReportingTools.Helpers
 {
@@ -42,11 +44,17 @@ namespace ACTReportingTools.Helpers
         public string GracePeriod { get; set; }
         public string DwellTime { get; set; }
         public string WorkDuration { get; set; }
+        public string InOfficeBreak { get; set; }
         public TimeOnly timeInFrom { get; set; }
         public TimeOnly timeInTo { get; set; }
         public TimeOnly timeOutFrom { get; set; }
         public TimeOnly timeOutTo { get; set; }
+        public TimeOnly breakTimeFrom { get; set; }
+        public TimeOnly breakTimeTo { get; set; }
+        public int breakDuration { get; set; }
+        public int inOfficeDuration { get; set; }
         public string sqlCommand { get; set; }
+
 
         ObservableCollection<RecordModel> recordResult { get; set; }
         ObservableCollection<RecordModel> recordInCheck { get; set; }
@@ -76,11 +84,11 @@ namespace ACTReportingTools.Helpers
             GracePeriod = (string)SettingsConfig["GracePeriod"];
             DwellTime = (string)SettingsConfig["DwellTime"];
             WorkDuration = (string)SettingsConfig["WorkDuration"];
-
+            InOfficeBreak = (string)SettingsConfig["InOfficeBreakTimeDuration"];
             //for test run
             //var result = Samplerun();
             //sqlCommand = $"Select * from Log where ( (\"When\" between '{p1}' and '{p2}') and ((Event=50) or (Event=52)) ) order by \"When\"";
-            
+
             SQLDataAccess daAccess = new SQLDataAccess();
             var result = daAccess.GetLogReport(startDate, endDate);
 
@@ -207,7 +215,7 @@ namespace ACTReportingTools.Helpers
                     //If not clock out, change to clock in.
                     recordInCheck[0].TimeOut = recordInCheck[0].TimeIn; //new DateTime(DateOnly.FromDateTime(recordInCheck[0].TimeIn), new TimeOnly(23, 59));
                     recordInCheck[0].TotalHours = recordInCheck[0].TimeOut - recordInCheck[0].TimeIn;  //CheckDwellTime(recordInCheck[0].TimeIn, recordInCheck[0].TimeOut, recordInCheck[0].TotalHours);
-                    recordInCheck[0].Remarks = recordInCheck[0].Remarks + "No Clock Out. ";
+                    recordInCheck[0].Remarks = recordInCheck[0].Remarks + "No Clock Out. \n";
                     recordResult.Add(recordInCheck[0]);
                     recordInCheck.RemoveAt(0);
                 }
@@ -246,18 +254,33 @@ namespace ACTReportingTools.Helpers
                         timeInTo = new TimeOnly(23, 59);
                         timeOutFrom = new TimeOnly(0, 1 );
                         timeOutTo = new TimeOnly(23, 59);
+
+                        breakTimeFrom = new TimeOnly(0, 1);
+                        breakTimeTo = new TimeOnly(23, 59);
+                        breakDuration = 0;
+                        inOfficeDuration = 0;
                         break;
                     case DayOfWeek.Friday:
                         timeInFrom = new TimeOnly(int.Parse(TimeInFrom.Substring(0, 2)), int.Parse(TimeInFrom[^2..]));
                         timeInTo = new TimeOnly(int.Parse(TimeInTo.Substring(0, 2)), int.Parse(TimeInTo[^2..]));
                         timeOutFrom = new TimeOnly(int.Parse(TimeOutFrom.Substring(0, 2)), int.Parse(TimeOutFrom[^2..]));
                         timeOutTo = new TimeOnly(int.Parse(TimeOutTo.Substring(0, 2)), int.Parse(TimeOutTo[^2..]));
+
+                        breakTimeFrom = new TimeOnly(int.Parse(BreakTimeFriFrom.Substring(0, 2)), int.Parse(BreakTimeFriFrom[^2..]));
+                        breakTimeTo = new TimeOnly(int.Parse(BreakTimeFriTo.Substring(0, 2)), int.Parse(BreakTimeFriTo[^2..]));
+                        breakDuration = int.Parse(BreakTimeFriDuration);
+                        inOfficeDuration = int.Parse(InOfficeBreak);
                         break;
                     default:
                         timeInFrom = new TimeOnly(int.Parse(TimeInFrom.Substring(0, 2)), int.Parse(TimeInFrom[^2..]));
                         timeInTo = new TimeOnly(int.Parse(TimeInTo.Substring(0, 2)), int.Parse(TimeInTo[^2..]));
                         timeOutFrom = new TimeOnly(int.Parse(TimeOutFrom.Substring(0, 2)), int.Parse(TimeOutFrom[^2..]));
                         timeOutTo = new TimeOnly(int.Parse(TimeOutTo.Substring(0, 2)), int.Parse(TimeOutTo[^2..]));
+
+                        breakTimeFrom = new TimeOnly(int.Parse(BreakTimeFrom.Substring(0, 2)), int.Parse(BreakTimeFrom[^2..]));
+                        breakTimeTo = new TimeOnly(int.Parse(BreakTimeTo.Substring(0, 2)), int.Parse(BreakTimeTo[^2..]));
+                        breakDuration = int.Parse(BreakTimeDuration);
+                        inOfficeDuration = int.Parse(InOfficeBreak);
                         break;
                 }
 
@@ -267,7 +290,7 @@ namespace ACTReportingTools.Helpers
                     var listCheck = listResult.Where(r => (r.UserNumber == n) && (DateOnly.FromDateTime(r.TimeIn) == d)).ToList();
                     //recordcheck contains all the transactions of the day for the user
                     DateTime lastTimeOut = new(0);
-                    TimeSpan dailyTotalHours = new(0);
+                   
                     TimeSpan weeklyTotalHours = new(0);
 
                     if (listCheck.Count > 0)
@@ -288,7 +311,7 @@ namespace ACTReportingTools.Helpers
                                 }
                                 else if (TimeOnly.FromDateTime(l.TimeIn) > timeInTo)
                                 {
-                                    l.Remarks = l.Remarks + "Late. ";
+                                    l.Remarks = l.Remarks + "Late. \n ";
                                 }
 
                                 //RecordModel record = recordResult.Where(r => (r.UserNumber == n) || r.TimeIn == listCheck[0].TimeIn).FirstOrDefault();
@@ -301,41 +324,124 @@ namespace ACTReportingTools.Helpers
                             {
                                 record.Remarks = l.Remarks;
 
-                                //Rule 1. Check for Dwell Time
-                                if (l.TotalHours < new TimeSpan(0, int.Parse(DwellTime), 1))
-                                {
-                                    l.TotalHours = new TimeSpan(0);
-                                    l.Remarks = l.Remarks + "Less than Dwell Time. ";
-                                }
+
+                               
 
 
-                                //Rule 2. Grace Period
+                                //Rule 1. Grace Period
                                 var t =  l.TimeIn - lastTimeOut;
 
                                 if (t < new TimeSpan(0, int.Parse(GracePeriod), 1))
                                 {
                                     l.TotalHours = l.TotalHours + t;
                                 }
-
+                                
                                 lastTimeOut = l.TimeOut;
 
 
-                                //Count Daily Total Hours
-                                dailyTotalHours = dailyTotalHours + l.TotalHours;
-
-                                if (listCheck.IndexOf(l) == (listCheck.Count - 1))
+                                //Rule 2. Check for Dwell Time
+                                if (l.TotalHours < new TimeSpan(0, int.Parse(DwellTime), 1))
                                 {
-                                    record.DailyTotal = dailyTotalHours;
-                                    if (dailyTotalHours < new TimeSpan(int.Parse(WorkDuration.Substring(0, 2)), int.Parse(WorkDuration[^2..]), 1))
-                                    {
-                                        record.Remarks = record.Remarks + " Daily Total Hours Less than Recommended.";
-                                    }
+                                    l.TotalHours = new TimeSpan(0);
+                                    l.Remarks = l.Remarks + "Less than Dwell Time. \n ";
                                 }
+
+                                ////Count Daily Total Hours
+                                //dailyTotalHours = dailyTotalHours + l.TotalHours;
+
+                                //if (listCheck.IndexOf(l) == (listCheck.Count - 1))
+                                //{
+                                //    record.DailyTotal = dailyTotalHours;
+                                //    if (dailyTotalHours < new TimeSpan(int.Parse(WorkDuration.Substring(0, 2)), int.Parse(WorkDuration[^2..]), 1))
+                                //    {
+                                //        record.Remarks = record.Remarks + "Daily Total Hours Less than Recommended. \n";
+                                //    }
+                                //}
+
+
                             }
                         }
                     }
 
+
+                    //Checking for lunch break
+
+                    var lunchCheck = listResult.Where(
+                        r => (r.UserNumber == n) &&
+                        (DateOnly.FromDateTime(r.TimeIn) == d) &&
+                        (((TimeOnly.FromDateTime(r.TimeIn) >= breakTimeFrom) && (TimeOnly.FromDateTime(r.TimeIn) <= breakTimeTo)) ||
+                        ((TimeOnly.FromDateTime(r.TimeOut) >= breakTimeFrom) && (TimeOnly.FromDateTime(r.TimeOut) <= breakTimeTo)))).ToList();
+
+                    if (lunchCheck.Count > 0)
+                    {
+                        var lunchRecord = new RecordModel();
+                        lunchRecord.UserNumber = n; lunchRecord.Name = userInfo.Where(u => u.UserNumber == n).Select(u => u.Name).FirstOrDefault();
+                        lunchRecord.Group = userInfo.Where(u => u.UserNumber == n).Select(u => u.UserGroup).FirstOrDefault();
+                        lunchRecord.TimeIn = new DateTime(d, breakTimeFrom);
+                        lunchRecord.TimeOut = new DateTime(d, breakTimeTo);
+                        lunchRecord.TotalHours = new TimeSpan(0, breakDuration, 0).Negate();
+                        lunchRecord.Remarks = "There is Lunch Break. \n";
+                        recordResult.Add(lunchRecord);
+                    }
+                    else if (lunchCheck.Count == 0)
+                    {
+                        var lunchCheckForLong = listResult.Where(
+                        r => (r.UserNumber == n) &&
+                        (DateOnly.FromDateTime(r.TimeIn) == d) &&
+                        ((TimeOnly.FromDateTime(r.TimeIn) <= breakTimeFrom) && (TimeOnly.FromDateTime(r.TimeOut) >= breakTimeTo))).FirstOrDefault();
+
+                        if (lunchCheckForLong != null)
+                        {
+                            var lunchRecord = new RecordModel();
+                            lunchRecord.UserNumber = n;
+                            lunchRecord.Name = userInfo.Where(u => u.UserNumber == n).Select(u => u.Name).FirstOrDefault();
+                            lunchRecord.Group = userInfo.Where(u => u.UserNumber == n).Select(u => u.UserGroup).FirstOrDefault();
+                            lunchRecord.TimeIn = new DateTime(d, breakTimeFrom);
+                            lunchRecord.TimeOut = new DateTime(d, breakTimeTo);
+                            lunchRecord.TotalHours = new TimeSpan(0, inOfficeDuration, 0).Negate();
+                            //lunchRecord.Remarks = "No Lunch Break. \n";
+                            recordResult.Add(lunchRecord);
+                        }
+
+
+                    }
+
+
+                    //reiterate the list to check for daily total
+
+                    TimeSpan dailyTotalHours = new(0);
+                    listCheck = recordResult.Where(r => (r.UserNumber == n) && (DateOnly.FromDateTime(r.TimeIn) == d)).OrderBy(r => r.TimeIn).ToList();
+
+                    if (listCheck.Count > 0)
+                    {
+                        foreach (var l in listCheck)
+                        {
+                            RecordModel record = new RecordModel();
+                            record = recordResult.Where(r => (r.UserNumber == n) && r.TimeIn == l.TimeIn).FirstOrDefault();
+                            //Count Daily Total Hours
+                            dailyTotalHours = dailyTotalHours + l.TotalHours;
+
+                            if (listCheck.IndexOf(l) == (listCheck.Count - 1))
+                            {
+                                record.DailyTotal = dailyTotalHours;
+                                if (dailyTotalHours < new TimeSpan(int.Parse(WorkDuration.Substring(0, 2)), int.Parse(WorkDuration[^2..]), 1))
+                                {
+                                    record.Remarks = record.Remarks + "Daily Total Hours Less than Recommended. \n";
+                                }
+                            }
+                        }
+                    }
+                    //((TimeOnly.FromDateTime(r.TimeIn) >= breakTimeFrom) && (TimeOnly.FromDateTime(r.TimeIn) <= breakTimeTo)) ||
+                    //((TimeOnly.FromDateTime(r.TimeOut) >= breakTimeFrom) && (TimeOnly.FromDateTime(r.TimeOut) <= breakTimeTo))).ToList();
+
+
+
+                    //( breakTimeFrom <  (TimeOnly.FromDateTime(r.TimeIn)) < breakTimeTo) 
+                    //|| (TimeOnly.FromDateTime(r.TimeOut) between breakTimeFrom and breakTimeTo))
+                    //).ToList();
+                    //(TimeOnly.FromDateTime(r.TimeIn) >= breakTimeFrom) && (TimeOnly.FromDateTime(r.TimeIn) <= breakTimeTo)).ToList();
                 }
+
 
             }
 
@@ -348,7 +454,7 @@ namespace ACTReportingTools.Helpers
 
         public ObservableCollection<RecordModel> GetResults()
         {
-            return recordResult;
+            return recordResult.OrderBy(a => a.TimeIn).ToObservableCollection<RecordModel>();
         }
         private ObservableCollection<EventLogModel> Samplerun()
         {

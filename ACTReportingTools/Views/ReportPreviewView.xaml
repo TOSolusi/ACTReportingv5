@@ -6,6 +6,7 @@
         xmlns:syncfusion="http://schemas.syncfusion.com/wpf" 
         xmlns:local="clr-namespace:ACTReportingTools.Views"
         xmlns:cal="http://www.caliburnproject.org"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:helpers="clr-namespace:ACTReportingTools.Helpers"
         xmlns:viewmodels="clr-namespace:ACTReportingTools.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:ReportPreviewViewModel}"
         mc:Ignorable="d"
@@ -19,11 +20,11 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <syncfusion:SfDataGrid AutoGenerateColumns="False" AllowSorting="True" Grid.Row="0" HorizontalAlignment="Center" HorizontalContentAlignment="Center"
-                               ShowGroupDropArea="True" ColumnSizer="Auto" Name="dataGrid"
+                               ShowGroupDropArea="True" ColumnSizer="Auto" Name="dataGrid" 
                                AllowGrouping="True" AllowFiltering="True" Margin="20" ItemsSource="{Binding displayResult}">
             <syncfusion:SfDataGrid.Columns>
 
-                <syncfusion:GridTextColumn MappingName="Name"  TextAlignment="Center" />
+                <syncfusion:GridTextColumn MappingName="Name"  TextAlignment="Center"   />
                 <syncfusion:GridTextColumn MappingName="Group"  TextAlignment="Center"/>
                 <syncfusion:GridTextColumn MappingName="Week" HeaderText="Week #" TextAlignment="Center" />
                 <syncfusion:GridTextColumn MappingName="DateIn" HeaderText="Date IN" TextAlignment="Left"  />
@@ -68,9 +69,9 @@
 
         </syncfusion:SfDataGrid>
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
-            <Button Content="Print" Command="{Binding PrintCommand}" CommandParameter="{Binding ElementName=dataGrid}" Margin="10 10 5 10" Width="100"/>
-            <Button Name="Excel" Content="Export to .xls"  Command="{Binding SaveToXlsCommand}" CommandParameter="{Binding ElementName=dataGrid}" Margin="5 10 5 10" Width="100"/>
-            <Button Content="Export to PDF" Command="{Binding SaveToPdfCommand}" CommandParameter="{Binding ElementName=dataGrid}" Margin="5 10 10 10" Width="100"/>
+            <ui:Button Appearance="Dark" Content="Print" Command="{Binding PrintCommand}" CommandParameter="{Binding ElementName=dataGrid}" Margin="10 10 5 10" Width="150"/>
+            <ui:Button Appearance="Dark"  Name="Excel" Content="Export to .xls"  Command="{Binding SaveToXlsCommand}" CommandParameter="{Binding ElementName=dataGrid}" Margin="5 10 5 10" Width="150"/>
+            <ui:Button Appearance="Dark"  Content="Export to PDF" Command="{Binding SaveToPdfCommand}" CommandParameter="{Binding ElementName=dataGrid}" Margin="5 10 10 10" Width="150"/>
         </StackPanel> 
         <!--CommandParameter="{Binding ElementName=dataGrid}"-->
     </Grid>

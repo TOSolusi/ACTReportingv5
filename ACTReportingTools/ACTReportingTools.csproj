@@ -37,6 +37,7 @@
     <PackageReference Include="Syncfusion.SfNavigationDrawer.WPF" Version="28.1.41" />
     <PackageReference Include="Syncfusion.Shared.Base" Version="28.1.41" />
     <PackageReference Include="Syncfusion.Shared.WPF" Version="28.1.41" />
+    <PackageReference Include="WPF-UI" Version="4.0.0" />
   </ItemGroup>
 
   <ItemGroup>

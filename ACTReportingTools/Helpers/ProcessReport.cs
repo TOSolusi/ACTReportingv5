@@ -215,7 +215,7 @@ namespace ACTReportingTools.Helpers
                     //If not clock out, change to clock in.
                     recordInCheck[0].TimeOut = recordInCheck[0].TimeIn; //new DateTime(DateOnly.FromDateTime(recordInCheck[0].TimeIn), new TimeOnly(23, 59));
                     recordInCheck[0].TotalHours = recordInCheck[0].TimeOut - recordInCheck[0].TimeIn;  //CheckDwellTime(recordInCheck[0].TimeIn, recordInCheck[0].TimeOut, recordInCheck[0].TotalHours);
-                    recordInCheck[0].Remarks = recordInCheck[0].Remarks + "No Clock Out. \n";
+                    recordInCheck[0].Remarks = recordInCheck[0].Remarks + "No Clock Out. ";
                     recordResult.Add(recordInCheck[0]);
                     recordInCheck.RemoveAt(0);
                 }
@@ -311,7 +311,7 @@ namespace ACTReportingTools.Helpers
                                 }
                                 else if (TimeOnly.FromDateTime(l.TimeIn) > timeInTo)
                                 {
-                                    l.Remarks = l.Remarks + "Late. \n ";
+                                    l.Remarks = l.Remarks + "Late. ";
                                 }
 
                                 //RecordModel record = recordResult.Where(r => (r.UserNumber == n) || r.TimeIn == listCheck[0].TimeIn).FirstOrDefault();
@@ -343,7 +343,7 @@ namespace ACTReportingTools.Helpers
                                 if (l.TotalHours < new TimeSpan(0, int.Parse(DwellTime), 1))
                                 {
                                     l.TotalHours = new TimeSpan(0);
-                                    l.Remarks = l.Remarks + "Less than Dwell Time. \n ";
+                                    l.Remarks = l.Remarks + "Less than Dwell Time. ";
                                 }
 
                                 ////Count Daily Total Hours
@@ -374,14 +374,56 @@ namespace ACTReportingTools.Helpers
 
                     if (lunchCheck.Count > 0)
                     {
-                        var lunchRecord = new RecordModel();
-                        lunchRecord.UserNumber = n; lunchRecord.Name = userInfo.Where(u => u.UserNumber == n).Select(u => u.Name).FirstOrDefault();
-                        lunchRecord.Group = userInfo.Where(u => u.UserNumber == n).Select(u => u.UserGroup).FirstOrDefault();
-                        lunchRecord.TimeIn = new DateTime(d, breakTimeFrom);
-                        lunchRecord.TimeOut = new DateTime(d, breakTimeTo);
-                        lunchRecord.TotalHours = new TimeSpan(0, breakDuration, 0).Negate();
-                        lunchRecord.Remarks = "There is Lunch Break. \n";
-                        recordResult.Add(lunchRecord);
+                        {
+                            TimeSpan totalInOfficeDuringLunch = new TimeSpan(0);
+                            var lunchRemark = "";
+                            foreach (var l in lunchCheck)
+                            {
+                                if (TimeOnly.FromDateTime(l.TimeIn) < breakTimeFrom)
+                                {
+                                    totalInOfficeDuringLunch = totalInOfficeDuringLunch + (TimeOnly.FromDateTime(l.TimeOut) - breakTimeFrom);
+                                }
+                                else if (TimeOnly.FromDateTime(l.TimeOut) > breakTimeTo)
+                                {
+                                    totalInOfficeDuringLunch = totalInOfficeDuringLunch + (breakTimeTo - (TimeOnly.FromDateTime(l.TimeIn)));
+                                }
+                                else
+                                {
+                                    //totalLunchDuration = totalLunchDuration + l.TotalHours;
+                                    totalInOfficeDuringLunch = totalInOfficeDuringLunch + (TimeOnly.FromDateTime(l.TimeOut) - TimeOnly.FromDateTime(l.TimeIn));
+                                }
+
+
+                                
+                            }
+
+                            var durationOutsideOffice = breakTimeTo - breakTimeFrom - totalInOfficeDuringLunch;
+
+                            if (durationOutsideOffice < new TimeSpan(0, inOfficeDuration, 0))//new TimeSpan(0, inOfficeDuration, 0))
+                            {
+                                totalInOfficeDuringLunch = new TimeSpan(0, inOfficeDuration, 0).Negate() + durationOutsideOffice;
+                            }
+                            else if (durationOutsideOffice < new TimeSpan(0, breakDuration, 0))
+                            {
+                                totalInOfficeDuringLunch = new TimeSpan(0, breakDuration, 0).Negate() + totalInOfficeDuringLunch;
+                            }
+                            else
+                            {
+                                totalInOfficeDuringLunch = durationOutsideOffice.Negate();
+                                lunchRemark = "Lunch Break too long. ";
+                            }
+                            //Creating new lunch record
+                            var lunchRecord = new RecordModel();
+                                lunchRecord.UserNumber = n;
+                                lunchRecord.Name = userInfo.Where(u => u.UserNumber == n).Select(u => u.Name).FirstOrDefault();
+                                lunchRecord.Group = userInfo.Where(u => u.UserNumber == n).Select(u => u.UserGroup).FirstOrDefault();
+                                lunchRecord.TimeIn = new DateTime(d, breakTimeFrom);
+                                lunchRecord.TimeOut = new DateTime(d, breakTimeTo);
+                                lunchRecord.TotalHours = totalInOfficeDuringLunch;
+                                lunchRecord.Remarks = lunchRemark;
+                                recordResult.Add(lunchRecord);
+                            
+                        }
                     }
                     else if (lunchCheck.Count == 0)
                     {
@@ -426,7 +468,7 @@ namespace ACTReportingTools.Helpers
                                 record.DailyTotal = dailyTotalHours;
                                 if (dailyTotalHours < new TimeSpan(int.Parse(WorkDuration.Substring(0, 2)), int.Parse(WorkDuration[^2..]), 1))
                                 {
-                                    record.Remarks = record.Remarks + "Daily Total Hours Less than Recommended. \n";
+                                    record.Remarks = record.Remarks + "Daily Total Hours Less than Recommended. ";
                                 }
                             }
                         }

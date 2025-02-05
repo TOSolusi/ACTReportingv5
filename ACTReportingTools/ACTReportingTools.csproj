@@ -30,13 +30,14 @@
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Syncfusion.DataGridExcelExport.Wpf" Version="28.1.41" />
-    <PackageReference Include="Syncfusion.Licensing" Version="28.1.41" />
-    <PackageReference Include="Syncfusion.SfGrid.WPF" Version="28.1.41" />
-    <PackageReference Include="Syncfusion.SfInput.WPF" Version="28.1.41" />
-    <PackageReference Include="Syncfusion.SfNavigationDrawer.WPF" Version="28.1.41" />
-    <PackageReference Include="Syncfusion.Shared.Base" Version="28.1.41" />
-    <PackageReference Include="Syncfusion.Shared.WPF" Version="28.1.41" />
+    <PackageReference Include="Syncfusion.DataGridExcelExport.Wpf" Version="28.2.4" />
+    <PackageReference Include="Syncfusion.Licensing" Version="28.2.4" />
+    <PackageReference Include="Syncfusion.SfBusyIndicator.WPF" Version="28.2.4" />
+    <PackageReference Include="Syncfusion.SfGrid.WPF" Version="28.2.4" />
+    <PackageReference Include="Syncfusion.SfInput.WPF" Version="28.2.4" />
+    <PackageReference Include="Syncfusion.SfNavigationDrawer.WPF" Version="28.2.4" />
+    <PackageReference Include="Syncfusion.Shared.Base" Version="28.2.4" />
+    <PackageReference Include="Syncfusion.Shared.WPF" Version="28.2.4" />
     <PackageReference Include="WPF-UI" Version="4.0.0" />
   </ItemGroup>
 

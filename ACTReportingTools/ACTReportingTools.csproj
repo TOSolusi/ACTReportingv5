@@ -6,13 +6,22 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Form-04-WF.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Icons\Document Setting-WF.png" />
     <None Remove="Icons\Exit - 02.png" />
+    <None Remove="Icons\Form-04-WF.ico" />
     <None Remove="Icons\Report-Editor.png" />
     <None Remove="Icons\Settings.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Form-04-WF.ico" />
+    <Resource Include="Icons\Form-04-WF.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>

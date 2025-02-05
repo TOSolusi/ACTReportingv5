@@ -405,7 +405,7 @@ namespace ACTReportingTools.Helpers
                             }
                             else if (durationOutsideOffice < new TimeSpan(0, breakDuration, 0))
                             {
-                                totalInOfficeDuringLunch = new TimeSpan(0, breakDuration, 0).Negate() + totalInOfficeDuringLunch;
+                                totalInOfficeDuringLunch = new TimeSpan(0, breakDuration, 0).Negate() + durationOutsideOffice;
                             }
                             else
                             {

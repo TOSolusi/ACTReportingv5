@@ -74,7 +74,7 @@ namespace ACTReportingTools.Helpers
             sqlCommand = $"Select EventID, [When], TimeStamp, Event, Controller, Door, EventData, OriginalForeName, OriginalSurname from Log " +
                 $"where [When] between \'{p1}\' and \'{p2}\' " +
                 $"and ((Event=50) or (Event=52)) " +
-                $"and (Door = 1) and (EventData=9) " + // and (EventData=9)
+                $"and (Door = 1) " + // and (EventData=9)
                 $"Order by [When]";
 
             BindableCollection<EventLogModel> output = new BindableCollection<EventLogModel>();

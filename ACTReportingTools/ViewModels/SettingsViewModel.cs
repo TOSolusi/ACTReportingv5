@@ -89,7 +89,15 @@ namespace ACTReportingTools.ViewModels
             //ConnString = $"Server={StringServer};Database={StringDatabase}; Integrated Security=true; Encrypt=false;";
             daAccess = new SQLDataAccess(connectionString: ConnString);
             //daAccess = new SQLDataAccess();
-            await daAccess.TestConnection();
+            try
+            {
+                await daAccess.TestConnection();
+            }
+            catch (Exception ex)
+            {
+                VisibleError = Visibility.Visible;
+                ErrorMessage = ex.Message;
+            }
         }
 
         public void BtnCancel()
@@ -99,12 +107,22 @@ namespace ACTReportingTools.ViewModels
 
         public void BtnSaveSettings()
         {
-            SettingsConfig["Server"] = StringServer;
-            SettingsConfig["Database"] = StringDatabase;
+            try
+            {
+
+
+                SettingsConfig["Server"] = StringServer;
+                SettingsConfig["Database"] = StringDatabase;
+
+                ConfigHelper.SetConfig(SettingsConfig, FileSettings);
+                MessageBox.Show("Settings Saved");
+                menuViewModel.ButtonReportDate();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error Saving Settings: {ex.Message}");
+            }
             
-            ConfigHelper.SetConfig(SettingsConfig, FileSettings);
-            MessageBox.Show("Settings Saved");
-            menuViewModel.ButtonReportDate();
         }
     }
 }

@@ -403,15 +403,15 @@ namespace ACTReportingTools.Helpers
                             {
                                 totalInOfficeDuringLunch = new TimeSpan(0, inOfficeDuration, 0).Negate() + durationOutsideOffice;
                             }
-                            else if (durationOutsideOffice < new TimeSpan(0, breakDuration, 0))
-                            {
-                                totalInOfficeDuringLunch = new TimeSpan(0, breakDuration, 0).Negate() + durationOutsideOffice;
-                            }
-                            else
-                            {
-                                totalInOfficeDuringLunch = durationOutsideOffice.Negate();
-                                lunchRemark = "Lunch Break too long. ";
-                            }
+                            //else if (durationOutsideOffice < new TimeSpan(0, breakDuration, 0))
+                            //{
+                            //    totalInOfficeDuringLunch = new TimeSpan(0, breakDuration, 0).Negate() + durationOutsideOffice;
+                            //}
+                            //else
+                            //{
+                            //    totalInOfficeDuringLunch = durationOutsideOffice.Negate();
+                            //    lunchRemark = "Lunch Break too long. ";
+                            //}
                             //Creating new lunch record
                             var lunchRecord = new RecordModel();
                                 lunchRecord.UserNumber = n;

@@ -36,6 +36,7 @@ namespace ACTReportingTools.Helpers
             StringDatabase = (string)SettingsConfig["Database"];
             //List<int> inDoorNumberList = [int]SettingsConfig["INDoorNumber"].ToArray<int>(); //jsonArray.ToObject<List<int>>();
 
+            //connString = $"Server={StringServer};Database={StringDatabase}; Integrated Security=False; User ID=sa; Password=K@limantan01; Pooling=False; Encrypt=false "; //Encrypt=false;
             connString = $"Server={StringServer};Database={StringDatabase}; Integrated Security=true; Encrypt=false;";
         }
 

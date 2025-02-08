@@ -402,6 +402,17 @@ namespace ACTReportingTools.Helpers
                             if (durationOutsideOffice < new TimeSpan(0, inOfficeDuration, 0))//new TimeSpan(0, inOfficeDuration, 0))
                             {
                                 totalInOfficeDuringLunch = new TimeSpan(0, inOfficeDuration, 0).Negate() + durationOutsideOffice;
+                                var lunchRecord = new RecordModel();
+                                lunchRecord.UserNumber = n;
+                                lunchRecord.Name = userInfo.Where(u => u.UserNumber == n).Select(u => u.Name).FirstOrDefault();
+                                lunchRecord.Group = userInfo.Where(u => u.UserNumber == n).Select(u => u.UserGroup).FirstOrDefault();
+                                lunchRecord.TimeIn = new DateTime(d, breakTimeFrom);
+                                lunchRecord.TimeOut = new DateTime(d, breakTimeTo);
+                                lunchRecord.TotalHours = totalInOfficeDuringLunch;
+                                lunchRecord.Remarks = lunchRemark;
+                                recordResult.Add(lunchRecord);
+
+
                             }
                             //else if (durationOutsideOffice < new TimeSpan(0, breakDuration, 0))
                             //{
@@ -413,15 +424,7 @@ namespace ACTReportingTools.Helpers
                             //    lunchRemark = "Lunch Break too long. ";
                             //}
                             //Creating new lunch record
-                            var lunchRecord = new RecordModel();
-                                lunchRecord.UserNumber = n;
-                                lunchRecord.Name = userInfo.Where(u => u.UserNumber == n).Select(u => u.Name).FirstOrDefault();
-                                lunchRecord.Group = userInfo.Where(u => u.UserNumber == n).Select(u => u.UserGroup).FirstOrDefault();
-                                lunchRecord.TimeIn = new DateTime(d, breakTimeFrom);
-                                lunchRecord.TimeOut = new DateTime(d, breakTimeTo);
-                                lunchRecord.TotalHours = totalInOfficeDuringLunch;
-                                lunchRecord.Remarks = lunchRemark;
-                                recordResult.Add(lunchRecord);
+                           
                             
                         }
                     }

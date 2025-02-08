@@ -92,11 +92,11 @@ namespace ACTReportingTools.Helpers
                         TimeSpan timeCounter = new TimeSpan(0);
                         if (o.DailyTotal.Substring(0,1) == "-")
                         {
-                             timeCounter = new TimeSpan(int.Parse(o.DailyTotal.Substring(1, 2)), int.Parse(o.DailyTotal.Substring(4, 2)), int.Parse(o.DailyTotal.Substring(7, 2)), 0).Negate();
+                            timeCounter = new TimeSpan(int.Parse(o.DailyTotal.Substring(1, 2)), int.Parse(o.DailyTotal.Substring(4, 2)), 0).Negate();  //.Negate();  //, int.Parse(o.DailyTotal.Substring(7, 2)), 0).Negate();
                         }
                         else
                         {
-                             timeCounter = new TimeSpan(int.Parse(o.DailyTotal.Substring(0, 2)), int.Parse(o.DailyTotal.Substring(3, 2)), int.Parse(o.DailyTotal.Substring(6, 2)), 0);
+                             timeCounter = new TimeSpan(int.Parse(o.DailyTotal.Substring(0, 2)), int.Parse(o.DailyTotal.Substring(3, 2)), 0);
                             
                         }
                         totalCalculatedHours = totalCalculatedHours.Add(timeCounter);

@@ -51,20 +51,21 @@ namespace ACTReportingTools.ViewModels
 
                 if (record.TotalHours < new TimeSpan(0))
                 {
-                    displayRecord.TotalHours ="-"+ record.TotalHours.ToString(@"dd\:hh\:mm");
+
+                    displayRecord.TotalHours = "-" + record.TotalHours.ToString(@"hh\:mm"); // $"-{((record.TotalHours.Days*24)+(record.TotalHours.Hours)).ToString("00")}:{(record.TotalHours.Minutes).ToString("00")}"; // "-"+ record.TotalHours.ToString($"{}");
                 }
                 else
                 {
-                    displayRecord.TotalHours = record.TotalHours.ToString(@"dd\:hh\:mm");
+                    displayRecord.TotalHours = $"{((record.TotalHours.Days * 24) + (record.TotalHours.Hours)).ToString("00")}:{record.TotalHours.Minutes.ToString("00")}";
                 }
                 
                 if (record.DailyTotal < new TimeSpan(0))
                 {
-                    displayRecord.DailyTotal = "-"+record.DailyTotal.ToString(@"dd\:hh\:mm");
+                    displayRecord.DailyTotal = "-" + record.DailyTotal.ToString(@"hh\:mm");   // $"-{((record.DailyTotal.Days*24)+record.DailyTotal.Hours).ToString("00")}:{record.DailyTotal.Minutes.ToString("00")}"; //"-"+record.DailyTotal.ToString(@"dd\:hh\:mm");
                 }
                 else if (record.DailyTotal > new TimeSpan(0))
                 {
-                    displayRecord.DailyTotal = record.DailyTotal.ToString(@"dd\:hh\:mm");
+                    displayRecord.DailyTotal = $"{((record.DailyTotal.Days * 24) + record.DailyTotal.Hours).ToString("00")}:{record.DailyTotal.Minutes.ToString("00")}";
                 }
                 else
                 {

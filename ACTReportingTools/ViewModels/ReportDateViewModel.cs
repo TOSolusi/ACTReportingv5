@@ -1,6 +1,7 @@
 ﻿using ACTReportingTools.Helpers;
 using Caliburn.Micro;
 using Syncfusion.Windows.Controls;
+using Syncfusion.Windows.Controls.Notification;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using Windows.UI.Notifications;
 
 namespace ACTReportingTools.ViewModels
 {
@@ -41,7 +43,8 @@ namespace ACTReportingTools.ViewModels
             CommandLastWeek = new RelayCommand(RadioButtonLastWeek);
             CommandThisMonth = new RelayCommand(RadioButtonThisMonth);
             CommandLastMonth = new RelayCommand(RadioButtonLastMonth);
-            VisibleProgress = Visibility.Collapsed;
+
+            VisibleProgress = Visibility.Hidden;
         }
         public void RadioButtonThisMonth()
         {
@@ -175,12 +178,13 @@ namespace ACTReportingTools.ViewModels
         public Visibility VisibleProgress
         {
             get { return visibleProgress; }
-            set 
-            { 
+            set
+            {
                 visibleProgress = value;
                 NotifyOfPropertyChange(() => VisibleProgress);
             }
         }
+        
 
 
         private string errorMessage;
@@ -195,12 +199,27 @@ namespace ACTReportingTools.ViewModels
             }
         }
 
+        private bool isLoading;
+
+        public bool IsLoading
+        {
+            get { return isLoading; }
+            set
+            {
+                isLoading = value;
+                NotifyOfPropertyChange(() => IsLoading);
+            }
+        }
+
         public async Task BtnGenerateReport()
         {
-            //VisibleProgress = Visibility.Visible;
-            var result = new ProcessReport(StartDate, EndDate).GetResults();
+            //isLoading = true;
 
-            //VisibleProgress = Visibility.Collapsed;
+            VisibleProgress = Visibility.Visible;
+            var result = await new ProcessReport(StartDate, EndDate).GetResults();
+
+            //isLoading = false;
+            VisibleProgress = Visibility.Hidden;
 
             await _windowManager.ShowWindowAsync(new ReportPreviewViewModel(result));
         }

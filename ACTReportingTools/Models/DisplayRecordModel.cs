@@ -21,5 +21,6 @@ namespace ACTReportingTools.Models
         public string? DailyTotal { get; set; }
         public string? WeeklyTotal { get; set; }
         public string Remarks { get; set; }
+        public int? status { get; set; }
     }
 }

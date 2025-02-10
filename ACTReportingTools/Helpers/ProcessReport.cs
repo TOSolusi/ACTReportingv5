@@ -410,6 +410,7 @@ namespace ACTReportingTools.Helpers
                                 lunchRecord.TimeOut = new DateTime(d, breakTimeTo);
                                 lunchRecord.TotalHours = totalInOfficeDuringLunch;
                                 lunchRecord.Remarks = lunchRemark;
+                                lunchRecord.status = 2;
                                 recordResult.Add(lunchRecord);
 
 
@@ -444,6 +445,7 @@ namespace ACTReportingTools.Helpers
                             lunchRecord.TimeIn = new DateTime(d, breakTimeFrom);
                             lunchRecord.TimeOut = new DateTime(d, breakTimeTo);
                             lunchRecord.TotalHours = new TimeSpan(0, inOfficeDuration, 0).Negate();
+                            lunchRecord.status = 2;
                             //lunchRecord.Remarks = "No Lunch Break. \n";
                             recordResult.Add(lunchRecord);
                         }
@@ -497,7 +499,7 @@ namespace ACTReportingTools.Helpers
 
 
 
-        public ObservableCollection<RecordModel> GetResults()
+        public async Task <ObservableCollection<RecordModel>> GetResults()
         {
             return recordResult.OrderBy(a => a.TimeIn).ToObservableCollection<RecordModel>();
         }

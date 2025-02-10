@@ -23,6 +23,7 @@ namespace ACTReportingTools.Models
         public TimeSpan DailyTotal { get; set; }
         public TimeSpan UnaccountedHours { get; set; }
         public string Remarks { get; set; }
+        public int? status { get; set; }
 
     }
 }

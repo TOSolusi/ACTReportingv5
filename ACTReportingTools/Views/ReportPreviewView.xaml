@@ -14,6 +14,7 @@
     <Window.Resources>
         <helpers:CustomAggregate x:Key="customAggregate" />
         <helpers:ColorConverter x:Key="colorConverter" />
+        <helpers:CaptionSummaryRowConverter x:Key="captionSummaryRowConverter" />
         <Style TargetType="syncfusion:VirtualizingCellsControl">
             <Setter Property="Background" Value="{Binding Converter={StaticResource colorConverter}}" />
         </Style>
@@ -44,14 +45,23 @@
 
             </syncfusion:SfDataGrid.Columns>
 
-            <syncfusion:SfDataGrid.GroupSummaryRows >
-                <syncfusion:GridSummaryRow ShowSummaryInRow="True" Title="Total {TotalUser} person with total time (hh:mm) {TotalHoursCalculated} with {RemarkCount} remarks.">
-                    <syncfusion:GridSummaryRow.SummaryColumns>
-                        <syncfusion:GridSummaryColumn Name="TotalHoursCalculated"
+            <syncfusion:SfDataGrid.CaptionSummaryRow>
+
+                <!--<syncfusion:SfDataGrid.GroupSummaryRows >-->
+                    <syncfusion:GridSummaryRow ShowSummaryInRow="True" Title=" {ColumnName} : {Key} - Total {TotalUser} person with total time {TotalHoursCalculated} with {RemarkCount} remarks. {WeeklyCount}.">
+                        <syncfusion:GridSummaryRow.SummaryColumns>
+                            <syncfusion:GridSummaryColumn Name="TotalHoursCalculated"
                                               Format="'{calculatedTotalHours}'"
                                               MappingName="TotalHours" 
                                               CustomAggregate="{StaticResource customAggregate}"
                                               SummaryType="Custom" />
+
+                        <syncfusion:GridSummaryColumn Name="WeeklyCount"
+                        Format="'{countWeeklyHours}'"
+                        MappingName="TotalHours"
+                        CustomAggregate="{StaticResource customAggregate}"
+                        SummaryType="Custom" />
+
 
                         <syncfusion:GridSummaryColumn Name="TotalUser"
                       Format="'{countPerson}'"
@@ -59,17 +69,19 @@
                       CustomAggregate="{StaticResource customAggregate}"
                       SummaryType="Custom" />
 
-                        <!--<syncfusion:GridSummaryColumn Name="RemarksCount"
+                            <syncfusion:GridSummaryColumn Name="RemarksCount"
                                               Format="'Total Remarks - {Count:d}'"
                                               MappingName="Remarks"
-                                              SummaryType="CountAggregate" />-->
+                                              SummaryType="CountAggregate" />
 
-                        <syncfusion:GridSummaryColumn Name="RemarkCount" Format="'{remarksCount}'" CustomAggregate="{StaticResource customAggregate}"
+                            <syncfusion:GridSummaryColumn Name="RemarkCount" Format="'{remarksCount}'" CustomAggregate="{StaticResource customAggregate}"
                       MappingName="Remarks" SummaryType="Custom"  />
-                      
-                    </syncfusion:GridSummaryRow.SummaryColumns>
-                </syncfusion:GridSummaryRow>
-            </syncfusion:SfDataGrid.GroupSummaryRows>
+
+                        </syncfusion:GridSummaryRow.SummaryColumns>
+                    </syncfusion:GridSummaryRow>
+                <!--</syncfusion:SfDataGrid.GroupSummaryRows>-->
+
+            </syncfusion:SfDataGrid.CaptionSummaryRow>
 
         </syncfusion:SfDataGrid>
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">

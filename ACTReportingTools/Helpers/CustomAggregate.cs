@@ -21,7 +21,9 @@ namespace ACTReportingTools.Helpers
 
         public string remarksCount { get; set; }
         public string calculatedTotalHours { get; set; }
+        public TimeSpan calcTotalHours { get; set; }
         public string countPerson {  get; set; }
+        public string countWeeklyHours { get; set; }
 
         public Action<IEnumerable, string, PropertyDescriptor> CalculateAggregateFunc()
         {
@@ -37,13 +39,28 @@ namespace ACTReportingTools.Helpers
 
                 if (pd.Name == "calculatedTotalHours")
                 {
-                    this.calculatedTotalHours = enumerableItems.CountTotalHours<DisplayRecordModel>(h => h.TotalHours);
+                    calcTotalHours = enumerableItems.CountTotalHours<DisplayRecordModel>(h => h.TotalHours);
+                    var stringResult = $"{((calcTotalHours.Days * 24) + (calcTotalHours.Hours)).ToString("00")}:{calcTotalHours.Minutes.ToString("00")}";
+                    this.calculatedTotalHours = stringResult;
                 }
 
                 if(pd.Name == "countPerson")
                 {
                     
                     this.countPerson = enumerableItems.Select(o => new { o.Name }).Distinct().Count().ToString();
+                }
+                if(pd.Name == "countWeeklyHours")
+                {
+                    if (this.calcTotalHours < new TimeSpan(40, 1,0))
+                    {
+                        this.countWeeklyHours = "Under 40 hours";
+                    }
+                    else
+                    {
+                        this.countWeeklyHours = "";
+                    }
+
+                   
                 }
             };
 
@@ -71,7 +88,7 @@ namespace ACTReportingTools.Helpers
 
         }
 
-        public static string CountTotalHours<T>(this IEnumerable<DisplayRecordModel> values, Func<T, string?> selector)
+        public static TimeSpan CountTotalHours<T>(this IEnumerable<DisplayRecordModel> values, Func<T, string?> selector)
         {
             var stringResult = "";
 
@@ -105,11 +122,12 @@ namespace ACTReportingTools.Helpers
 
             }
 
+            return totalCalculatedHours;
             //stringResult = totalCalculatedHours.ToString(@"dd\:hh\:mm\");
-            stringResult = $"{((totalCalculatedHours.Days * 24) + (totalCalculatedHours.Hours)).ToString("00")}:{totalCalculatedHours.Minutes.ToString("00")}";
+            
 
             //stringResult = "test";
-            return stringResult;
+            //return stringResult;
         }
     }
 }

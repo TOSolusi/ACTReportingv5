@@ -3,7 +3,8 @@
 "TimeInTo" : "1000",
 "TimeOutFrom" : "1700",
   "TimeOutTo": "1900",
- "WorkDuration" :  "0800",
+  "WorkDuration": "08",
+  "TotalWeeklyHours": "30",
 "CheckSaturday" : "True",
 "CheckSunday" : "True",
 "BreakTimeFrom" : "1200",
@@ -11,8 +12,8 @@
 "BreakTimeDuration" : "60",
 "BreakTimeFriFrom" : "1130",
 "BreakTimeFriTo" : "1400",
-  "BreakTimeFriDuration": "90",
-  "InOfficeBreakTimeDuration": "30",
+"BreakTimeFriDuration": "90",
+"InOfficeBreakTimeDuration": "30",
 "GracePeriod" : "15",
 "DwellTime" : "30"
 }

@@ -1,4 +1,7 @@
 ﻿using ACTReportingTools.Models;
+using ACTReportingTools.ViewModels;
+using Caliburn.Micro;
+using Newtonsoft.Json.Linq;
 using Syncfusion.Data;
 using System;
 using System.Collections;
@@ -16,14 +19,21 @@ namespace ACTReportingTools.Helpers
 
         public CustomAggregate()
         {
+            fileReportSettings = IoC.Get<FileLocationViewModel>().FileReportSettings;
+            SettingsConfig = ConfigHelper.LoadConfig(fileReportSettings);
+            weeklyHours = (string)SettingsConfig["TotalWeeklyHours"];
+            timeWeeklyHours = new TimeSpan(int.Parse(weeklyHours.Substring(0, 2)), 0, 1);
 
         }
-
+        public string fileReportSettings { get; set; }
         public string remarksCount { get; set; }
         public string calculatedTotalHours { get; set; }
         public TimeSpan calcTotalHours { get; set; }
         public string countPerson {  get; set; }
         public string countWeeklyHours { get; set; }
+        public JObject SettingsConfig { get; set; }
+        public string weeklyHours { get; set; }
+        public TimeSpan timeWeeklyHours { get; set; }
 
         public Action<IEnumerable, string, PropertyDescriptor> CalculateAggregateFunc()
         {
@@ -51,9 +61,11 @@ namespace ACTReportingTools.Helpers
                 }
                 if(pd.Name == "countWeeklyHours")
                 {
-                    if (this.calcTotalHours < new TimeSpan(40, 1,0))
+                    if (this.calcTotalHours < timeWeeklyHours)
                     {
-                        this.countWeeklyHours = "Under 40 hours";
+                        this.countWeeklyHours = $" Weekly Total under {timeWeeklyHours.TotalHours.ToString("00")} hours";
+                        
+                        
                     }
                     else
                     {

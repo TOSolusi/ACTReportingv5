@@ -21,6 +21,9 @@ namespace ACTReportingTools.ViewModels
         public ObservableCollection<string> HourNumbers { get; set; }
         public ObservableCollection<string> MinuteNumbers { get; set; }
         public ObservableCollection<string> DurationNumbers { get; set; }
+        public ObservableCollection<string> DurationDaily { get; set; }
+        public ObservableCollection<string> DurationWeek { get; set; }
+
 
         public TimeOnly TimeTimeInFrom { get; set; }
         public TimeOnly TimeTimeInTo { get; set; }
@@ -40,6 +43,8 @@ namespace ACTReportingTools.ViewModels
         public string BreakTimeFriDuration { get; set; }
         public string GracePeriod { get; set; }
         public string DwellTime { get; set; }
+        public string  dailyTotal { get; set; }
+        public string weeklyTotal { get; set; }
 
         public string FileReportSettings { get; set; }
         
@@ -57,7 +62,9 @@ namespace ACTReportingTools.ViewModels
 
             HourNumbers = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"];
             MinuteNumbers = ["00", "15", "30", "45"];
-            DurationNumbers = ["15", "30", "45", "60", "75", "90", "105", "120"];
+            DurationNumbers = ["00", "15", "30", "45", "60", "75", "90", "105", "120"];
+            DurationDaily = ["05", "06", "07", "08", "09", "10"];
+            DurationWeek = ["30", "35", "40", "45", "50", "55", "60"];
 
             SettingsConfig = ConfigHelper.LoadConfig(FileReportSettings);
             TimeInFrom = (string)SettingsConfig["TimeInFrom"];
@@ -74,6 +81,8 @@ namespace ACTReportingTools.ViewModels
             BreakTimeFriDuration = (string)SettingsConfig["BreakTimeFriDuration"];
             GracePeriod = (string)SettingsConfig["GracePeriod"];
             DwellTime = (string)SettingsConfig["DwellTime"];
+            dailyTotal= (string)SettingsConfig["WorkDuration"];
+            weeklyTotal = (string)SettingsConfig["TotalWeeklyHours"];
 
             TimeInFromHour = TimeInFrom.Substring(0, 2);
             TimeInFromMinutes = TimeInFrom[^2..];
@@ -427,6 +436,9 @@ namespace ACTReportingTools.ViewModels
             SettingsConfig["BreakTimeFriDuration"] = BreakTimeFriDuration;
             SettingsConfig["GracePeriod"] = GracePeriod;
             SettingsConfig["DwellTime"] = DwellTime;
+            SettingsConfig["WorkDuration"] = dailyTotal;
+            SettingsConfig["TotalWeeklyHours"] = weeklyTotal;
+
             ConfigHelper.SetConfig(SettingsConfig, FileReportSettings);
             MessageBox.Show("Report Settings Saved");
             menuViewModel.ButtonReportDate();

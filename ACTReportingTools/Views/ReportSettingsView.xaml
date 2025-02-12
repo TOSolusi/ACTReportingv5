@@ -38,7 +38,8 @@
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
-                
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
@@ -71,10 +72,11 @@
                 <syncfusion:ComboBoxAdv ItemsSource="{Binding MinuteNumbers}" Margin="2 5 5 5"  Width="40" SelectedValue="{Binding TimeOutToMinutes, Mode=TwoWay}"/>
             </StackPanel>
 
-            <TextBlock Grid.Column="0" Grid.Row="2" Margin="20 5 5 20">Check On</TextBlock>
-            <CheckBox Grid.Column="2" Grid.Row="2" Margin="5 5 5 20" IsChecked="{Binding CheckSaturday, Mode=TwoWay}">Saturday</CheckBox>
-            <CheckBox Grid.Column="4" Grid.Row="2" Margin="5 5 5 20" IsChecked="{Binding CheckSunday, Mode=TwoWay}">Sunday</CheckBox>
+            <TextBlock Grid.Column="0" Grid.Row="2" Margin="20 5 5 20" VerticalAlignment="Center">Check On</TextBlock>
+            <CheckBox Grid.Column="2" Grid.Row="2" Margin="5 5 5 20" VerticalAlignment="Center" IsChecked="{Binding CheckSaturday, Mode=TwoWay}">Saturday</CheckBox>
+            <CheckBox Grid.Column="4" Grid.Row="2" Margin="5 5 5 20" VerticalAlignment="Center" IsChecked="{Binding CheckSunday, Mode=TwoWay}">Sunday</CheckBox>
 
+            
             <TextBlock  Grid.Column="0" Grid.Row="3" Margin="20 20 5 5" VerticalAlignment="Center">Break Time (Mon - Thu)</TextBlock>
             <TextBlock Grid.Column="1" Grid.Row="3" Margin="5 20 5 5" VerticalAlignment="Center">From</TextBlock>
             <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="3" VerticalAlignment="Center" Margin="5 20 5 5">
@@ -111,8 +113,15 @@
             <TextBlock VerticalAlignment="Center" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" Margin="20 20 5 5">Grace Period (min.)</TextBlock>
             <syncfusion:ComboBoxAdv VerticalAlignment="Center" ItemsSource="{Binding DurationNumbers}" Grid.Column="2" Grid.Row="5" Margin="5 20 20 5"  Width="50" SelectedValue="{Binding GracePeriod, Mode=TwoWay}"/>
 
-            <TextBlock VerticalAlignment="Center" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" Margin="20 5 5 20">Minimum Dwell Time (min.)</TextBlock>
-            <syncfusion:ComboBoxAdv VerticalAlignment="Center" ItemsSource="{Binding DurationNumbers}" Grid.Column="2" Grid.Row="6" Margin="5 5 20 20"  Width="50" SelectedValue="{Binding DwellTime, Mode=TwoWay}"/>
+            <TextBlock VerticalAlignment="Center" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" Margin="20 5 5 5">Minimum Dwell Time (min.)</TextBlock>
+            <syncfusion:ComboBoxAdv VerticalAlignment="Center" ItemsSource="{Binding DurationNumbers}" Grid.Column="2" Grid.Row="6" Margin="5 5 20 5"  Width="50" SelectedValue="{Binding DwellTime, Mode=TwoWay}"/>
+
+            <TextBlock Grid.Column="0" Grid.Row="7" Margin="20 5 5 5" VerticalAlignment="Center" Grid.ColumnSpan="2">Recommended Daily Total Hours</TextBlock>
+            <syncfusion:ComboBoxAdv VerticalAlignment="Center" ItemsSource="{Binding DurationDaily}" Grid.Column="2" Grid.Row="7" Margin="5 5 20 5"  Width="50" SelectedValue="{Binding dailyTotal, Mode=TwoWay}"/>
+
+            <TextBlock Grid.Column="0" Grid.Row="8" Margin="20 5 5 20" VerticalAlignment="Center" Grid.ColumnSpan="2">Recommended Weekly Total Hours</TextBlock>
+            <syncfusion:ComboBoxAdv VerticalAlignment="Center" ItemsSource="{Binding DurationWeek}" Grid.Column="2" Grid.Row="8" Margin="5 5 20 20"  Width="50" SelectedValue="{Binding weeklyTotal, Mode=TwoWay}"/>
+
 
         </Grid>
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">

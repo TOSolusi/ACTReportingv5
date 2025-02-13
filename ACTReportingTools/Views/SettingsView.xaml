@@ -36,11 +36,30 @@
             <TextBox Grid.Row="1" Grid.Column="1" Width="500" Margin="10" Name="StringDatabase"></TextBox>
             <ui:Button Appearance="Primary" Grid.Row="1"  Grid.Column="2" Margin="10" Name="BtnTestConnect">Test Connection</ui:Button>
         </Grid>
-        
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+        <Grid Grid.Row="2" Margin="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Margin="10 10 5 5" VerticalAlignment="Center">Door IN Number :</TextBlock>
+            <TextBox Grid.Row="0" Grid.Column="1" Width="200" Margin="5 10 10 5"  VerticalAlignment="Center" VerticalContentAlignment="Center" Name="DoorInNumber"></TextBox>
+            <TextBlock Grid.Row="1" Grid.Column="0" Margin="10 5 5 10" VerticalAlignment="Center">Door OUT Number :</TextBlock>
+            <TextBox Grid.Row="1" Grid.Column="1" Width="200" Margin="5 5 10 10"  VerticalAlignment="Center" VerticalContentAlignment="Center" Name="DoorOutNumber"></TextBox>
+        </Grid>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
             <ui:Button Appearance="Primary" Width="200" Margin="10" Name="BtnCancel">Cancel</ui:Button>
             <ui:Button Appearance="Primary" Width="200" Margin="10" Name="BtnSaveSettings">Save Settings</ui:Button>
         </StackPanel>
-        <TextBlock Text="{Binding ErrorMessage}" Grid.Row="3" Grid.ColumnSpan="6" Foreground="Red" Visibility="{Binding VisibleError}"/>
+        <TextBlock Text="{Binding ErrorMessage}" Grid.Row="4" Grid.ColumnSpan="6" Foreground="Red" Visibility="{Binding VisibleError}"/>
     </Grid>
 </UserControl>

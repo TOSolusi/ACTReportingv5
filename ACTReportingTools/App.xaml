@@ -6,14 +6,16 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="fonts.xaml"/>
                 <ui:ThemesDictionary Theme="Light" />
                 <ui:ControlsDictionary />
                 <ResourceDictionary>
                     <local:Bootstrapper x:Key="Bootstrapper" />
-                    
+                    <!--<FontFamily x:Key="Inter">..\fonts\inter_18pt-black.ttf</FontFamily>-->
+
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
- 
         </ResourceDictionary>
+        
     </Application.Resources>
 </Application>

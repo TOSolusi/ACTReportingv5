@@ -18,6 +18,8 @@ namespace ACTReportingTools.ViewModels
         public MenuViewModel menuViewModel { get; set; }
         public string ConnString { get; set; }
         public SQLDataAccess daAccess { get; set; }
+        public string DoorInNumber { get; set; }
+        public string DoorOutNumber { get; set; }
         public SettingsViewModel()
         {
             menuViewModel = IoC.Get<MenuViewModel>();
@@ -29,8 +31,9 @@ namespace ACTReportingTools.ViewModels
             StringDatabase = (string)SettingsConfig["Database"];
 
             //ConnString = $"Server={StringServer};Database={StringDatabase}; Integrated Security=true; Encrypt=false;";
+            DoorInNumber = (string)SettingsConfig["INDoorNumbers"];
+            DoorOutNumber = (string)SettingsConfig["OUTDoorNumbers"];
 
-            
 
         }
 
@@ -113,6 +116,10 @@ namespace ACTReportingTools.ViewModels
 
                 SettingsConfig["Server"] = StringServer;
                 SettingsConfig["Database"] = StringDatabase;
+                SettingsConfig["INDoorNumbers"] = DoorInNumber;
+                SettingsConfig["OUTDoorNumbers"] = DoorOutNumber;
+
+
 
                 ConfigHelper.SetConfig(SettingsConfig, FileSettings);
                 MessageBox.Show("Settings Saved");

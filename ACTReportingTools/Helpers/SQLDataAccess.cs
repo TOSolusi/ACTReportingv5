@@ -25,6 +25,10 @@ namespace ACTReportingTools.Helpers
         public JObject SettingsConfig { get; set; }
         public string FileSettings { get; set; }
         public string sqlCommand { get; set; }
+        //public List<int> DoorIn { get; set; }
+        //public List<int>  DoorOut { get; set; }
+        public string doorInList { get; set; }
+        public string doorOutList { get; set; }
 
         public SQLDataAccess()
         {
@@ -34,6 +38,16 @@ namespace ACTReportingTools.Helpers
 
             StringServer = (string)SettingsConfig["Server"];
             StringDatabase = (string)SettingsConfig["Database"];
+
+            //DoorIn = SettingsConfig["INDoorNumbers"].ToObject<List<int>>();
+            //DoorOut = SettingsConfig["OUTDoorNumbers"].ToObject<List<int>>(); 
+
+            //DoorIn = [1];
+            //DoorOut = [1];
+
+            doorInList = (string)SettingsConfig["INDoorNumbers"]; //string.Join(",", DoorIn);
+            doorOutList = (string)SettingsConfig["OUTDoorNumbers"]; //string.Join(",", DoorOut);
+
             //List<int> inDoorNumberList = [int]SettingsConfig["INDoorNumber"].ToArray<int>(); //jsonArray.ToObject<List<int>>();
 
             //connString = $"Server={StringServer};Database={StringDatabase}; Integrated Security=False; User ID=sa; Password=K@limantan01; Pooling=False; Encrypt=false "; //Encrypt=false;
@@ -75,7 +89,9 @@ namespace ACTReportingTools.Helpers
             sqlCommand = $"Select EventID, [When], TimeStamp, Event, Controller, Door, EventData, OriginalForeName, OriginalSurname from Log " +
                 $"where [When] between \'{p1}\' and \'{p2}\' " +
                 $"and ((Event=50) or (Event=52)) " +
-                $"and (Door = 1) " + // and (EventData=9)
+                "and (Door in (" + doorInList + ") or Door in (" + doorOutList + ")) " +
+                                                            //$"and (Door = 1) " + // and (EventData=9)
+                                                             //$" and ((Door in (1)) or (Door in (1))) " +  //$"and (Door = 1) " + // and (EventData=9)
                 $"Order by [When]";
 
             BindableCollection<EventLogModel> output = new BindableCollection<EventLogModel>();

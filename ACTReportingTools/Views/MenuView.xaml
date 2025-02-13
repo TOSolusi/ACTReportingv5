@@ -10,21 +10,23 @@
              xmlns:local="clr-namespace:ACTReportingTools.Views" xmlns:viewmodels="clr-namespace:ACTReportingTools.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:MenuViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+  
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             
-        <!--<RowDefinition Height="auto" />
+       <!--<RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />-->
-        
+
         </Grid.RowDefinitions>
 
         <!--<TextBlock Name="Title" FontSize="30" Grid.Row="0"/>-->
+        
         <syncfusion:SfNavigationDrawer  x:Name="navigationDrawer" DisplayMode="Expanded" Grid.Row="0" MinHeight="400" >
-            <syncfusion:NavigationItem Header="Report" FontSize="18" IsSelected="True" Command="{Binding CommandReportDate}" >
-                <syncfusion:NavigationItem.Icon>
+            <syncfusion:NavigationItem Header="Report"  FontSize="18" IsSelected="True" Command="{Binding CommandReportDate}"  >
+                <syncfusion:NavigationItem.Icon>  
                     <Image Source="..\Icons\Report-Editor.png" Stretch="Uniform"/>
                 </syncfusion:NavigationItem.Icon>
             </syncfusion:NavigationItem>
@@ -47,6 +49,8 @@
                 </syncfusion:NavigationItem>
             </syncfusion:SfNavigationDrawer.FooterItems>
         </syncfusion:SfNavigationDrawer>
+
+        <!--<TextBlock FontFamily="{StaticResource CustomFont}">Test this</TextBlock>-->
 
 
         <!--<Button Grid.Row="2" Name="Button33" Command="{Binding NavigateCommand}" >

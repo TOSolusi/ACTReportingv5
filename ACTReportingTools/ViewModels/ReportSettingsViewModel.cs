@@ -47,7 +47,8 @@ namespace ACTReportingTools.ViewModels
         public string weeklyTotal { get; set; }
 
         public string FileReportSettings { get; set; }
-        
+        public string InOfficeDuration { get; set; }
+
         public ReportSettingsViewModel()
         {
             //TimeInFromHour = "0";
@@ -83,6 +84,7 @@ namespace ACTReportingTools.ViewModels
             DwellTime = (string)SettingsConfig["DwellTime"];
             dailyTotal= (string)SettingsConfig["WorkDuration"];
             weeklyTotal = (string)SettingsConfig["TotalWeeklyHours"];
+            InOfficeDuration = (string)SettingsConfig["InOfficeBreakTimeDuration"];
 
             TimeInFromHour = TimeInFrom.Substring(0, 2);
             TimeInFromMinutes = TimeInFrom[^2..];
@@ -438,6 +440,7 @@ namespace ACTReportingTools.ViewModels
             SettingsConfig["DwellTime"] = DwellTime;
             SettingsConfig["WorkDuration"] = dailyTotal;
             SettingsConfig["TotalWeeklyHours"] = weeklyTotal;
+            SettingsConfig["InOfficeBreakTimeDuration"] = InOfficeDuration;
 
             ConfigHelper.SetConfig(SettingsConfig, FileReportSettings);
             MessageBox.Show("Report Settings Saved");

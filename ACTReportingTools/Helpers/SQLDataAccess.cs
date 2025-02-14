@@ -29,6 +29,9 @@ namespace ACTReportingTools.Helpers
         //public List<int>  DoorOut { get; set; }
         public string doorInList { get; set; }
         public string doorOutList { get; set; }
+        public bool IntegratedSecurity { get; set; }
+        public string? stringUser {  get; set; }
+        public string? stringPassword { get; set; }
 
         public SQLDataAccess()
         {
@@ -38,6 +41,11 @@ namespace ACTReportingTools.Helpers
 
             StringServer = (string)SettingsConfig["Server"];
             StringDatabase = (string)SettingsConfig["Database"];
+            IntegratedSecurity = (bool)SettingsConfig["IntegratedSecurity"];
+
+            stringUser = (string)SettingsConfig["UserID"];
+            
+            stringPassword = (string)SettingsConfig["Password"];
 
             //DoorIn = SettingsConfig["INDoorNumbers"].ToObject<List<int>>();
             //DoorOut = SettingsConfig["OUTDoorNumbers"].ToObject<List<int>>(); 
@@ -51,7 +59,17 @@ namespace ACTReportingTools.Helpers
             //List<int> inDoorNumberList = [int]SettingsConfig["INDoorNumber"].ToArray<int>(); //jsonArray.ToObject<List<int>>();
 
             //connString = $"Server={StringServer};Database={StringDatabase}; Integrated Security=False; User ID=sa; Password=K@limantan01; Pooling=False; Encrypt=false "; //Encrypt=false;
-            connString = $"Server={StringServer};Database={StringDatabase}; Integrated Security=true; Encrypt=false;";
+            
+            if (IntegratedSecurity)
+            {
+                connString = $"Server={StringServer};Database={StringDatabase}; Integrated Security={IntegratedSecurity}; Encrypt=false;";
+            }
+            else
+            {
+                string decryptedPassword = new CryptoHelper().Decrypt(stringPassword);   
+                connString = $"Server={StringServer};Database={StringDatabase}; Integrated Security={IntegratedSecurity}; User ID={stringUser}; Password={decryptedPassword}; Encrypt=false;";
+            }
+            
         }
 
         public SQLDataAccess(string connectionString)

@@ -1,6 +1,9 @@
 {
   "Server": "LAPTOP-SURFACE3\\SQLEXPRESS",
   "Database": "Vaderbilt",
+  "IntegratedSecurity": "true",
+  "UserID": "",
+  "Password": "",
   "INDoorNumbers": "1",
   "OUTDoorNumbers": "1"
 }

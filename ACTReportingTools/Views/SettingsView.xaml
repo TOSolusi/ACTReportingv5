@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ACTReportingTools.Views"
+             xmlns:viewmodels="clr-namespace:ACTReportingTools.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:SettingsViewModel}"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -35,6 +36,11 @@
             <TextBlock Grid.Row="1" Grid.Column="0" Margin="10">Database : </TextBlock>
             <TextBox Grid.Row="1" Grid.Column="1" Width="500" Margin="10" Name="StringDatabase"></TextBox>
             <ui:Button Appearance="Primary" Grid.Row="1"  Grid.Column="2" Margin="10" Name="BtnTestConnect">Test Connection</ui:Button>
+            <CheckBox Grid.Row="2" Grid.Column="0" Margin="10" Name="CheckIntegratedSecurity">Integrated Security</CheckBox>
+            <TextBlock Grid.Row="3" Grid.Column="0" Margin="10" IsEnabled="{Binding EnableUserPass}">User :</TextBlock>
+            <TextBox Grid.Row="3" Grid.Column="1" Width="500" Margin="10" IsEnabled="{Binding EnableUserPass}" Name="StringUser"></TextBox>
+            <TextBlock Grid.Row="4" Grid.Column="0" Margin="10" IsEnabled="{Binding EnableUserPass}" >Password :</TextBlock>
+            <ui:PasswordBox Grid.Row="4" Grid.Column="1" Width="500" Margin="10" Password="{Binding StringPassword, Mode=TwoWay}" IsEnabled="{Binding EnableUserPass }" ></ui:PasswordBox>
         </Grid>
         <Grid Grid.Row="2" Margin="20">
             <Grid.ColumnDefinitions>

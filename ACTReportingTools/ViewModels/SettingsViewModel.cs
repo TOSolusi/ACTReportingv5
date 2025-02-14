@@ -29,6 +29,17 @@ namespace ACTReportingTools.ViewModels
 
             StringServer = (string)SettingsConfig["Server"];
             StringDatabase = (string)SettingsConfig["Database"];
+            CheckIntegratedSecurity = (bool)SettingsConfig["IntegratedSecurity"];
+
+            if (!CheckIntegratedSecurity)
+            {
+                StringUser = (string)SettingsConfig["UserID"];
+
+                StringPassword = new CryptoHelper().Decrypt((string)SettingsConfig["Password"]);
+               
+            }
+          
+           
 
             //ConnString = $"Server={StringServer};Database={StringDatabase}; Integrated Security=true; Encrypt=false;";
             DoorInNumber = (string)SettingsConfig["INDoorNumbers"];
@@ -116,8 +127,25 @@ namespace ACTReportingTools.ViewModels
 
                 SettingsConfig["Server"] = StringServer;
                 SettingsConfig["Database"] = StringDatabase;
+                SettingsConfig["IntegratedSecurity"] = CheckIntegratedSecurity;
+                SettingsConfig["UserID"] = StringUser;
+                
                 SettingsConfig["INDoorNumbers"] = DoorInNumber;
                 SettingsConfig["OUTDoorNumbers"] = DoorOutNumber;
+                
+                if (!CheckIntegratedSecurity)
+                {
+                    SettingsConfig["UserID"] = StringUser;
+
+                    CryptoHelper ch = new CryptoHelper();
+                    string encryptedPassword = new CryptoHelper().Encrypt(StringPassword);
+                    SettingsConfig["Password"] = encryptedPassword;
+                }
+                else
+                {
+                    SettingsConfig["UserID"] = "";
+                    SettingsConfig["Password"] = "";
+                }
 
 
 
@@ -131,5 +159,61 @@ namespace ACTReportingTools.ViewModels
             }
             
         }
+
+        //private bool enableUserPass;
+        public bool EnableUserPass
+        {
+            get
+            {
+                bool value = false;
+                if (CheckIntegratedSecurity) //
+                {
+                    value = false;
+                }
+                else
+                {
+                    value = true;
+                }
+                return value;
+            }
+        }
+
+        private bool checkIntegratedSecurity;
+
+        public bool CheckIntegratedSecurity
+        {
+            get { return checkIntegratedSecurity; }
+            set
+            {
+                checkIntegratedSecurity = value;
+                NotifyOfPropertyChange(() => CheckIntegratedSecurity);
+                NotifyOfPropertyChange(() => EnableUserPass);
+                
+            }
+        }
+
+        private string stringUser;
+
+        public string StringUser
+        {
+            get { return stringUser; }
+            set 
+            { 
+                stringUser = value;
+                NotifyOfPropertyChange(() => StringUser);
+            }
+        }
+
+        private string stringPassword;
+        public string StringPassword
+        {
+            get { return stringPassword; }
+            set
+            {
+                stringPassword = value;
+                NotifyOfPropertyChange(() => StringPassword);
+            }
+        }
+
     }
 }

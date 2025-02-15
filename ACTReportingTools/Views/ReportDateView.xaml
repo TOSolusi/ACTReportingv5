@@ -59,7 +59,7 @@
         <StackPanel Grid.Row="2">
             <ui:Button Appearance="Primary" Name="BtnGenerateReport" Content="Generate Report" Margin="20" />
         </StackPanel>
-        <!--<Notification:SfBusyIndicator Grid.Row="3" IsBusy="True" Visibility="{Binding VisibleProgress}" AnimationType="Box"/>-->
+        <Notification:SfBusyIndicator Grid.Row="3" IsBusy="{Binding IsLoading}"  AnimationType="Box"/>
 
         <TextBlock Text="{Binding ErrorMessage}" Grid.Row="4" Grid.ColumnSpan="6" Foreground="Red" Visibility="{Binding VisibleError}"/>
 

@@ -44,7 +44,8 @@ namespace ACTReportingTools.ViewModels
             CommandThisMonth = new RelayCommand(RadioButtonThisMonth);
             CommandLastMonth = new RelayCommand(RadioButtonLastMonth);
 
-            VisibleProgress = Visibility.Hidden;
+            //VisibleProgress = Visibility.Hidden;
+            //isLoading = true;
         }
         public void RadioButtonThisMonth()
         {
@@ -213,15 +214,16 @@ namespace ACTReportingTools.ViewModels
 
         public async Task BtnGenerateReport()
         {
-            //isLoading = true;
+            IsLoading = true;
 
-            VisibleProgress = Visibility.Visible;
-            var result = await new ProcessReport(StartDate, EndDate).GetResults();
-
-            //isLoading = false;
-            VisibleProgress = Visibility.Hidden;
-
+            //VisibleProgress = Visibility.Visible;
+            var result = await new  ProcessReport(StartDate, EndDate).GetResults();
             await _windowManager.ShowWindowAsync(new ReportPreviewViewModel(result));
+
+            IsLoading = false;
+            //VisibleProgress = Visibility.Hidden;
+
+            //await _windowManager.ShowWindowAsync(new ReportPreviewViewModel(result));
         }
     }
 }

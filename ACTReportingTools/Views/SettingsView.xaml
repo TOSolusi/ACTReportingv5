@@ -31,16 +31,16 @@
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" Margin="10">Server : </TextBlock>
-            <TextBox Grid.Row="0" Grid.Column="1" Width="500" Margin="10" Name="StringServer"></TextBox>
-            <TextBlock Grid.Row="1" Grid.Column="0" Margin="10">Database : </TextBlock>
+            <TextBlock Grid.Row="0" Grid.Column="0" Margin="10" VerticalAlignment="Center">Server : </TextBlock>
+            <TextBox Grid.Row="0" Grid.Column="1" Width="500" Margin="10" Name="StringServer" VerticalAlignment="Center"></TextBox>
+            <TextBlock Grid.Row="1" Grid.Column="0" Margin="10" VerticalAlignment="Center">Database : </TextBlock>
             <TextBox Grid.Row="1" Grid.Column="1" Width="500" Margin="10" Name="StringDatabase"></TextBox>
             <ui:Button Appearance="Primary" Grid.Row="1"  Grid.Column="2" Margin="10" Name="BtnTestConnect">Test Connection</ui:Button>
             <CheckBox Grid.Row="2" Grid.Column="0" Margin="10" Name="CheckIntegratedSecurity">Integrated Security</CheckBox>
-            <TextBlock Grid.Row="3" Grid.Column="0" Margin="10" IsEnabled="{Binding EnableUserPass}">User :</TextBlock>
-            <TextBox Grid.Row="3" Grid.Column="1" Width="500" Margin="10" IsEnabled="{Binding EnableUserPass}" Name="StringUser"></TextBox>
-            <TextBlock Grid.Row="4" Grid.Column="0" Margin="10" IsEnabled="{Binding EnableUserPass}" >Password :</TextBlock>
-            <ui:PasswordBox Grid.Row="4" Grid.Column="1" Width="500" Margin="10" Password="{Binding StringPassword, Mode=TwoWay}" IsEnabled="{Binding EnableUserPass }" ></ui:PasswordBox>
+            <TextBlock Grid.Row="3" Grid.Column="0" Margin="10" VerticalAlignment="Center" IsEnabled="{Binding EnableUserPass}">User :</TextBlock>
+            <TextBox Grid.Row="3" Grid.Column="1" Width="500" VerticalAlignment="Center" Margin="10" IsEnabled="{Binding EnableUserPass}" Name="StringUser"></TextBox>
+            <TextBlock Grid.Row="4" Grid.Column="0" Margin="10" VerticalAlignment="Center" IsEnabled="{Binding EnableUserPass}" >Password :</TextBlock>
+            <ui:PasswordBox Grid.Row="4" Grid.Column="1" Width="500"  VerticalAlignment="Center" Margin="10" Password="{Binding StringPassword, Mode=TwoWay}" IsEnabled="{Binding EnableUserPass }" ></ui:PasswordBox>
         </Grid>
         <Grid Grid.Row="2" Margin="20">
             <Grid.ColumnDefinitions>

@@ -54,6 +54,8 @@ namespace ACTReportingTools.Helpers
         public int breakDuration { get; set; }
         public int inOfficeDuration { get; set; }
         public string sqlCommand { get; set; }
+        public string doorInList { get; set; }
+        public string doorOutList { get; set; }
 
 
         ObservableCollection<RecordModel> recordResult { get; set; }
@@ -85,6 +87,8 @@ namespace ACTReportingTools.Helpers
             DwellTime = (string)SettingsConfig["DwellTime"];
             WorkDuration = (string)SettingsConfig["WorkDuration"];
             InOfficeBreak = (string)SettingsConfig["InOfficeBreakTimeDuration"];
+            doorInList = (string)SettingsConfig["INDoorNumbers"]; //string.Join(",", DoorIn);
+            doorOutList = (string)SettingsConfig["OUTDoorNumbers"]; //string.Join(",", DoorOut);
             //for test run
             //var result = Samplerun();
             //sqlCommand = $"Select * from Log where ( (\"When\" between '{p1}' and '{p2}') and ((Event=50) or (Event=52)) ) order by \"When\"";
@@ -181,11 +185,12 @@ namespace ACTReportingTools.Helpers
                         rep.Remarks = "";
                     }
 
-                    if ((inputDoorNumber.Contains(a.Door)) && (a.Event == 50)) //meaning it is inside 
-                    {
+                    if ( (a.Event == 50)) //meaning it is inside  //(inputDoorNumber.Contains(a.Door)) &&
+                {
                                   
                         if (rep.TimeIn != DateTime.MinValue)
                         {
+                            rep.TimeIn2 = a.When;
                             continue;
                         }
                         else
@@ -194,8 +199,8 @@ namespace ACTReportingTools.Helpers
                         }
                         recordInCheck.Add(rep);
                     }
-                    else if ((inputDoorNumber.Contains(a.Door)) && (a.Event == 52))//meaning it is outside
-                    {
+                    else if ( (a.Event == 52))//meaning it is outside //(inputDoorNumber.Contains(a.Door)) &&
+                {
                         if (rep.TimeIn == DateTime.MinValue)
                         {
                             continue;
@@ -213,7 +218,7 @@ namespace ACTReportingTools.Helpers
                 while (recordInCheck.Count > 0)
                 {
                     //If not clock out, change to clock in.
-                    recordInCheck[0].TimeOut = recordInCheck[0].TimeIn; //new DateTime(DateOnly.FromDateTime(recordInCheck[0].TimeIn), new TimeOnly(23, 59));
+                    recordInCheck[0].TimeOut = recordInCheck[0].TimeIn2; //new DateTime(DateOnly.FromDateTime(recordInCheck[0].TimeIn), new TimeOnly(23, 59));
                     recordInCheck[0].TotalHours = recordInCheck[0].TimeOut - recordInCheck[0].TimeIn;  //CheckDwellTime(recordInCheck[0].TimeIn, recordInCheck[0].TimeOut, recordInCheck[0].TotalHours);
                     recordInCheck[0].Remarks = recordInCheck[0].Remarks + "No Clock Out. ";
                     recordResult.Add(recordInCheck[0]);

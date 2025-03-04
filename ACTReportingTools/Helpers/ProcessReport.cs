@@ -219,6 +219,11 @@ namespace ACTReportingTools.Helpers
                 {
                     //If not clock out, change to clock in.
                     recordInCheck[0].TimeOut = recordInCheck[0].TimeIn2; //new DateTime(DateOnly.FromDateTime(recordInCheck[0].TimeIn), new TimeOnly(23, 59));
+                    if (recordInCheck[0].TimeOut == DateTime.MinValue)
+                    {
+                        recordInCheck[0].TimeOut = recordInCheck[0].TimeIn;
+                    }
+                
                     recordInCheck[0].TotalHours = recordInCheck[0].TimeOut - recordInCheck[0].TimeIn;  //CheckDwellTime(recordInCheck[0].TimeIn, recordInCheck[0].TimeOut, recordInCheck[0].TotalHours);
                     recordInCheck[0].Remarks = recordInCheck[0].Remarks + "No Clock Out. ";
                     recordResult.Add(recordInCheck[0]);

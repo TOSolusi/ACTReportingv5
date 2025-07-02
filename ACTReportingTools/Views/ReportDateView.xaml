@@ -56,8 +56,9 @@
             <RadioButton GroupName="PresetPeriodRadio" Command="{Binding CommandThisMonth}" VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" FontSize="14" Margin="20 5 5 5" VerticalContentAlignment="Center">This Month</RadioButton>
             <RadioButton GroupName="PresetPeriodRadio" Command="{Binding CommandLastMonth}" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1" FontSize="14" Margin="5 5 20 5" VerticalContentAlignment="Center">Last Month</RadioButton>
         </Grid>
-        <StackPanel Grid.Row="2">
-            <ui:Button Appearance="Primary" Name="BtnGenerateReport" Content="Generate Report" Margin="20" />
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <ui:Button Appearance="Primary" Name="BtnGenerateReport" Content="Generate Report" Margin="20" Width="150" />
+            <ui:Button Appearance="Primary" Name="BtnGenerateCanteenReport" Content="Canteen Report" Margin="20" Width="150" />
         </StackPanel>
         <Notification:SfBusyIndicator Grid.Row="3" IsBusy="{Binding IsLoading}"  AnimationType="Box"/>
 

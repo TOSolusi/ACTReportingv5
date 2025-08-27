@@ -24,17 +24,17 @@
 
         <!--<TextBlock Name="Title" FontSize="30" Grid.Row="0"/>-->
         
-        <syncfusion:SfNavigationDrawer  x:Name="navigationDrawer" DisplayMode="Expanded" Grid.Row="0" MinHeight="400" >
+        <syncfusion:SfNavigationDrawer  x:Name="navigationDrawer" DisplayMode="Compact" Grid.Row="0" MinHeight="400" >
             <syncfusion:NavigationItem Header="Report"  FontSize="18" IsSelected="True" Command="{Binding CommandReportDate}"  >
                 <syncfusion:NavigationItem.Icon>  
                     <Image Source="..\Icons\Report-Editor.png" Stretch="Uniform"/>
                 </syncfusion:NavigationItem.Icon>
             </syncfusion:NavigationItem>
-            <syncfusion:NavigationItem Header="Report Settings" FontSize="18" Command="{Binding CommandReportSettings}" >
+            <!--<syncfusion:NavigationItem Header="Report Settings" FontSize="18" Command="{Binding CommandReportSettings}" >
                 <syncfusion:NavigationItem.Icon>
                     <Image Source="..\Icons\Document Setting-WF.png" Stretch="Uniform"/>
                 </syncfusion:NavigationItem.Icon>
-            </syncfusion:NavigationItem>
+            </syncfusion:NavigationItem>-->
             <syncfusion:SfNavigationDrawer.FooterItems>
                 <syncfusion:NavigationItem Header="Advanced Settings" FontSize="18"  Command="{Binding CommandSettings}">
                    

@@ -27,6 +27,7 @@ namespace ACTReportingTools.Helpers
         public string sqlCommand { get; set; }
         //public List<int> DoorIn { get; set; }
         //public List<int>  DoorOut { get; set; }
+        public string controllerList { get; set; }
         public string doorInList { get; set; }
         public string doorOutList { get; set; }
         public bool IntegratedSecurity { get; set; }
@@ -52,7 +53,7 @@ namespace ACTReportingTools.Helpers
 
             //DoorIn = [1];
             //DoorOut = [1];
-
+            controllerList = (string)SettingsConfig["ControllerNumbers"]; //string.Join(",", Controller);
             doorInList = (string)SettingsConfig["INDoorNumbers"]; //string.Join(",", DoorIn);
             doorOutList = (string)SettingsConfig["OUTDoorNumbers"]; //string.Join(",", DoorOut);
 
@@ -108,6 +109,7 @@ namespace ACTReportingTools.Helpers
                 $"where [When] between \'{p1}\' and \'{p2}\' " +
                 $"and ((Event=50) or (Event=52)) " +
                 $"and (Door in (" + doorInList + ") or Door in (" + doorOutList + ")) " +
+                $"and (Controller in ("+ controllerList + ")) " +
                                                              //$"and (Door = 1) " + // and (EventData=9)
                                                              //$" and ((Door in (1)) or (Door in (1))) " +  //$"and (Door = 1) " + // and (EventData=9)
                 $"Order by [When]";

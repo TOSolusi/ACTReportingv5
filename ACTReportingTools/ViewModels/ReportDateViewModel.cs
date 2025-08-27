@@ -217,7 +217,9 @@ namespace ACTReportingTools.ViewModels
             IsLoading = true;
 
             //VisibleProgress = Visibility.Visible;
-            var result = await new  ProcessReport(StartDate, EndDate).GetResults();
+            //var result = await new  ProcessReport(StartDate, EndDate).GetResults();
+            
+            var result = await Task.Run(() => new ProcessFILO(StartDate, EndDate).GetResults());
             await _windowManager.ShowWindowAsync(new ReportPreviewViewModel(result));
 
             IsLoading = false;

@@ -29,17 +29,17 @@
                                AllowGrouping="True" AllowFiltering="True" Margin="20" ItemsSource="{Binding displayResult}">
             <syncfusion:SfDataGrid.Columns>
 
-                <syncfusion:GridTextColumn MappingName="Name"  TextAlignment="Center"   />
-                <syncfusion:GridTextColumn MappingName="Group"  TextAlignment="Center"/>
-                <syncfusion:GridTextColumn MappingName="Week" HeaderText="Week #" TextAlignment="Center" />
-                <syncfusion:GridTextColumn MappingName="DateIn" HeaderText="Date IN" TextAlignment="Left"  />
-                <syncfusion:GridTextColumn MappingName="TimeIn" HeaderText="Time IN" AllowGrouping="False" TextAlignment="Left" />
-                <syncfusion:GridTextColumn MappingName="DateOut" HeaderText="Date OUT" TextAlignment="Left"/>
-                <syncfusion:GridTextColumn MappingName="TimeOut" HeaderText="Time OUT" AllowGrouping="False" TextAlignment="Left"/>
-                <syncfusion:GridTextColumn MappingName="TotalHours" HeaderText="Hours" TextAlignment="Center"/>
+                <syncfusion:GridTextColumn MappingName="Name"  TextAlignment="Center" Width="200"   />
+                <syncfusion:GridTextColumn MappingName="Group"  TextAlignment="Center" Width="200" />
+                <syncfusion:GridTextColumn MappingName="Week" HeaderText="Week #" TextAlignment="Center" Width="80" />
+                <syncfusion:GridTextColumn MappingName="DateIn" HeaderText="Date" TextAlignment="Center" Width="250"  />
+                <syncfusion:GridTextColumn MappingName="TimeIn" HeaderText="Time IN" AllowGrouping="False" TextAlignment="Center" Width="100" />
+                <!--<syncfusion:GridTextColumn MappingName="DateOut" HeaderText="Date OUT" TextAlignment="Left"/>-->
+                <syncfusion:GridTextColumn MappingName="TimeOut" HeaderText="Time OUT" AllowGrouping="False" TextAlignment="Center" Width="100"/>
+                <!--<syncfusion:GridTextColumn MappingName="TotalHours" HeaderText="Hours" TextAlignment="Center" Width="100"/>-->
                 <syncfusion:GridTextColumn MappingName="DailyTotal" HeaderText="Daily Total" TextAlignment="Center"/>
                 <!--<syncfusion:GridTextColumn MappingName="Unaccounted" Width="100"/>-->
-                <syncfusion:GridTextColumn MappingName="Remarks" TextAlignment="Center"/>
+                <!--<syncfusion:GridTextColumn MappingName="Remarks" TextAlignment="Center"/>-->
 
 
 
@@ -48,19 +48,19 @@
             <syncfusion:SfDataGrid.CaptionSummaryRow>
 
                 <!--<syncfusion:SfDataGrid.GroupSummaryRows >-->
-                    <syncfusion:GridSummaryRow ShowSummaryInRow="True" Title=" {ColumnName} : {Key} ; Total {TotalUser} person ; Total time {TotalHoursCalculated} ; {RemarkCount} remarks ; {WeeklyCount}.">
-                        <syncfusion:GridSummaryRow.SummaryColumns>
+                <syncfusion:GridSummaryRow ShowSummaryInRow="True" Title=" {ColumnName} : {Key} ; Total {TotalUser} person ; Total time {TotalHoursCalculated} ; "> <!--{RemarkCount} remarks ; {WeeklyCount}.-->
+                    <syncfusion:GridSummaryRow.SummaryColumns>
                             <syncfusion:GridSummaryColumn Name="TotalHoursCalculated"
                                               Format="'{calculatedTotalHours}'"
                                               MappingName="TotalHours" 
                                               CustomAggregate="{StaticResource customAggregate}"
                                               SummaryType="Custom" />
 
-                        <syncfusion:GridSummaryColumn Name="WeeklyCount"
+                        <!--<syncfusion:GridSummaryColumn Name="WeeklyCount"
                         Format="'{countWeeklyHours}'"
                         MappingName="TotalHours"
                         CustomAggregate="{StaticResource customAggregate}"
-                        SummaryType="Custom" />
+                        SummaryType="Custom" />-->
 
 
                         <syncfusion:GridSummaryColumn Name="TotalUser"
@@ -69,13 +69,13 @@
                       CustomAggregate="{StaticResource customAggregate}"
                       SummaryType="Custom" />
 
-                            <syncfusion:GridSummaryColumn Name="RemarksCount"
+                            <!--<syncfusion:GridSummaryColumn Name="RemarksCount"
                                               Format="'Total Remarks - {Count:d}'"
                                               MappingName="Remarks"
-                                              SummaryType="CountAggregate" />
+                                              SummaryType="CountAggregate" />-->
 
-                            <syncfusion:GridSummaryColumn Name="RemarkCount" Format="'{remarksCount}'" CustomAggregate="{StaticResource customAggregate}"
-                      MappingName="Remarks" SummaryType="Custom"  />
+                            <!--<syncfusion:GridSummaryColumn Name="RemarkCount" Format="'{remarksCount}'" CustomAggregate="{StaticResource customAggregate}"
+                      MappingName="Remarks" SummaryType="Custom"  />-->
 
                         </syncfusion:GridSummaryRow.SummaryColumns>
                     </syncfusion:GridSummaryRow>

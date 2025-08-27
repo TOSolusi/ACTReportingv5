@@ -4,6 +4,7 @@
   "IntegratedSecurity": "true",
   "UserID": "",
   "Password": "",
+  "ControllerNumbers": "1",
   "INDoorNumbers": "1",
   "OUTDoorNumbers": "1"
 }

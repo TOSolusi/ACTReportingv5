@@ -97,6 +97,7 @@ namespace ACTReportingTools.Helpers
             //getting data from Server either from SQL or from network
             SQLDataAccess daAccess = new SQLDataAccess();
             var result = daAccess.GetLogReport(startDate, endDate);
+            
 
             //start checking on date
             //List<DateTime> dateProcess = new List<DateTime>();

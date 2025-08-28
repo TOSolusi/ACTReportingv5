@@ -1,6 +1,7 @@
 {
-  "Server": "LAPTOP-SURFACE3\\SQLEXPRESS",
+  "Server": "SURFACE3\\SQLEXPRESS",
   "Database": "Vaderbilt",
+  "ServerAddress": "127.0.0.1:5050",
   "IntegratedSecurity": "true",
   "UserID": "",
   "Password": "",

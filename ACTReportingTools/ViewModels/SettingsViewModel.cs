@@ -42,7 +42,7 @@ namespace ACTReportingTools.ViewModels
             }
           
            
-
+            ServerAddress = (string)SettingsConfig["ServerAddress"];
             //ConnString = $"Server={StringServer};Database={StringDatabase}; Integrated Security=true; Encrypt=false;";
             ControllerNumber = (string)SettingsConfig["ControllerNumbers"];
             DoorInNumber = (string)SettingsConfig["INDoorNumbers"];
@@ -76,6 +76,17 @@ namespace ACTReportingTools.ViewModels
                 ConnString = $"Server={StringServer};Database={StringDatabase}; Integrated Security=true; Encrypt=false;";
             }
         }
+
+        private string serverAddress;
+
+        public string ServerAddress
+        {
+            get { return serverAddress; }
+            set { serverAddress = value; 
+                NotifyOfPropertyChange(() => serverAddress);
+            }
+        }
+
 
         private Visibility visibleError;
 
@@ -135,7 +146,8 @@ namespace ACTReportingTools.ViewModels
                 SettingsConfig["ControllerNumbers"] = ControllerNumber;
                 SettingsConfig["INDoorNumbers"] = DoorInNumber;
                 SettingsConfig["OUTDoorNumbers"] = DoorOutNumber;
-                
+                SettingsConfig["ServerAddress"] = ServerAddress;
+
                 if (!CheckIntegratedSecurity)
                 {
                     SettingsConfig["UserID"] = StringUser;
